@@ -43,32 +43,125 @@
         nav a:hover {
             background-color: #333;
         }
+	.main {
+            display: inline-flex;
+            flex-direction: row;
+	}
+
+        .image-container,
+        .content-container {
+            width: 45%;
+            height: 300px;
+            display: inline;
+            margin: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content-container {
+            background-color: black;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+         h1 {
+            margin-bottom: 10px;
+            font-size: 30px;
+            overflow: hidden; /* Hide the overflow to create the typing effect */
+            white-space: nowrap; /* Prevent text from wrapping */
+            animation: typing 2s steps(20, end), moveText 1.5s infinite alternate;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .register-button {
+            background-color: gold;
+            color: black;
+        }
+
+        .login-button {
+            background-color: black;
+            color: gold;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
 
         footer {
             background-color: black;
             color: gold;
             text-align: center;
             padding: 10px;
-            position: fixed;
-            bottom: 0;
             width: 100%;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes moveText {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-10px);
+            }
         }
     </style>
 </head>
 <body>
     <nav>
-	    <div class="logo"></div>
+        <div class="logo"></div>
         <div>
             <a href="#">Home</a>
             <a href="#">About</a>
             <a href="#">Login</a>
         </div>
     </nav>
+    <div class="main">
+    <div class="image-container">
+        <img src="./images/logo.png" alt="Your Image">
+    </div>
 
-    <!-- Your page content goes here -->
-
+    <div class="content-container">
+        <h1>CipherShield Password Manager</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <div class="action-buttons">
+            <button class="register-button">Register</button>
+            <button class="login-button">Login</button>
+        </div>
+    </div>
+    </div>
     <footer>
-        &copy; CipherShield Password Manager. All rights reserved.
+        &copy; 2024 CipherShield Password Manager. All rights reserved.
     </footer>
 </body>
 </html>
