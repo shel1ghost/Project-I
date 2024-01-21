@@ -1,0 +1,77 @@
+.main {
+    display: flex;
+}
+.about {
+    width: 48%;
+    background-color: rgba(128, 128, 128, 0.2);
+    height: 410px;
+    border-radius: 20px;
+    text-align: justify;
+    margin: 20px 2.8px 20px auto;
+    padding: 20px;
+    box-shadow: -0.5px 0.5px 6px 0 gray;
+}
+
+.about-heading {
+    color: #0099ff;
+    margin-bottom: 10px;
+    font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+    overflow: hidden;
+    /* Hide the overflow to create the typing effect */
+    white-space: nowrap;
+    animation: none;
+}
+
+.about-paragraph {
+    font-size: 20px;
+    color: #ff9900;
+}
+
+.about_image {
+    width: 620px;
+    height: 340px;
+    background-image: url("../images/photo.png");
+    background-size: cover;
+    margin: 7% 0 20px 0;
+}
+
+.slogan {
+   height: 400px;
+   text-align: center;
+   margin: auto;
+   width: 540px;
+   background-image: url("../images/photo13.png"); 
+   background-size: cover;
+}
+h2{
+    color: white;
+    font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    padding: 20px;
+}
+
+.about-password-generator {
+    display: flex;
+    margin-top: 4%;
+}
+
+.passwords-image {
+    background-image: url("../images/passwords.jpg");
+    background-size: cover;
+    width: 440px;
+    height: 400px;
+    margin: auto;
+}
+
+.password-generator-info {
+    width: 48%;
+    height: 400px;
+    margin: auto;
+    text-align: justify;
+    background-color: rgba(128, 128, 128, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: -0.5px 0.5px 6px 0 gray;
+}

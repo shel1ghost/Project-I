@@ -1,0 +1,116 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: black;
+    color: #ff9900;
+}
+
+header {
+    padding: 15px;
+    overflow: hidden;
+    text-align: center;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+} 
+
+.logo {
+    /* display: inline-block; */
+    width: 64px;
+    height: 64px;
+    background-image: url("../images/logo.png");
+    background-size: cover;
+    border-radius: 50%;
+    float: left;
+}
+
+.welcome {
+    display: inline-block;
+    color: white;
+    text-align: center;
+}
+
+.logout {
+    float: right;
+}
+
+.logout a {
+    text-decoration: none;
+    color: #ff9900;
+    font-size: 20px;
+    padding: 8px 15px;
+    transition: background-color 0.3s;
+    border-bottom: 1.5px solid #ff9900;
+}
+.logout a:hover {
+    background-color: #333;
+}
+
+.main {
+    display: flex;
+    padding: 2px 2px 20px 2px;
+}
+
+.menu {
+    width: 44%;
+    height: 400px;
+    margin: auto;
+    text-align: justify;
+    background-color: rgba(128, 128, 128, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: -0.5px 0.5px 6px 0 gray;
+}
+
+.password-generator {
+    width: 44%;
+    height: 400px;
+    margin: auto;
+    text-align: center;
+    background-color: rgba(128, 128, 128, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: -0.5px 0.5px 6px 0 gray;
+}
+
+.generator_title {
+    font-size: 30px;
+    color: #0099ff;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+p {
+    color: white;
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+#password_field {
+    width: 500px;
+    font-size: 28px;
+    padding: 16px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    margin-bottom: 20px;
+    outline: none;
+    box-shadow: -0.5px 0.5px 6px 0 gray;
+}
+
+.password_length {
+    font-size: 20px;
+}
+
+#password_length {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.generate_button {
+    padding: 14px;
+    font-size: 24px;
+    color: #0099ff;
+    background: transparent;
+    border-radius: 10px;
+    border: 2px solid #0099ff;
+}
