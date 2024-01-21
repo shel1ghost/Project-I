@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | CipherShield</title>
     <link rel="stylesheet" href="./css/dashboard.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <header>
@@ -13,10 +14,30 @@
         <div class="welcome">
             <h1>Welcome to CipherShield User!</h1>
         </div>
-        <div class="logout"><a href="/public/logout.php">Logout</a></div>
+        <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
     <div class="main">
         <div class="menu">
+            <div class="menu-items">
+                <a href="#" class="add-password">
+                    <span class="menu-option">Add Password</span>
+                </a>
+            </div>
+            <div class="menu-items">
+                <a href="#" class="view-passwords">
+                    <span class="menu-option">View Passwords</span>
+                </a>
+            </div>
+            <div class="menu-items">
+                <a href="#" class="settings">
+                    <span class="menu-option">Settings</span>
+                </a>
+            </div>
+            <div class="menu-items">
+                <a href="#" class="secret-key">
+                    <span class="menu-option">Secret Key</span>
+                </a>
+            </div>
         </div>
         <div class="password-generator">
             <h2 class="generator_title">CipherShield <br/> Password Generator</h2>
@@ -40,7 +61,7 @@
                     <button class="generate_button" onclick="displayRandomPassword()">Generate Password</button>
                 </div>
         </div>
-    </div>
+    </div> 
     <script src="./js/password_generator.js"></script>
 </body>
 </html>
