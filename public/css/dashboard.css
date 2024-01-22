@@ -120,7 +120,7 @@ p {
     background-color: #0099ff;
     height: 50px;
     width: 500px;
-    padding: 12px 10px 8px 10px;
+    padding: 12px 8px 8px 20px;
     margin: 25px auto 25px auto;
     border-radius: 12px;
     box-shadow: -0.5px 0.5px 6px 0 gray;
@@ -134,7 +134,7 @@ p {
     margin: auto;
     cursor: pointer;
     outline: none;
-    width: 400px;
+    width: 480px;
     height: 24px;
     text-decoration: none;
 }
@@ -164,7 +164,7 @@ p {
 }
 
 .menu-option {
-    margin-left: 100px;
+    margin-left: 60px;
     font-size: 28px;
     font-weight: bold;
     color: black;

@@ -19,7 +19,7 @@
     <div class="main">
         <div class="menu">
             <div class="menu-items">
-                <a href="#" class="add-password">
+                <a href="add_password.php" class="add-password">
                     <span class="menu-option">Add Password</span>
                 </a>
             </div>
