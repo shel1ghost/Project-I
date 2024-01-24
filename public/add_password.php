@@ -24,6 +24,10 @@
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
+
+        <label for="secretKey">Secret Key:</label>
+        <input type="text" id="secretKey" name="secretKey">
+
         </div>
 
         <div class="column">
@@ -40,6 +44,7 @@
 
         <label for="twoFactorInfo">2FA Information:</label>
         <textarea id="twoFactorInfo" name="twoFactorInfo" rows="2"></textarea>
+
         </div>
 
         <button type="submit">Add Password</button>

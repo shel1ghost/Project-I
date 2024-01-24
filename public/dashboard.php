@@ -35,7 +35,7 @@
             </div>
             <div class="menu-items">
                 <a href="#" class="secret-key">
-                    <span class="menu-option">Secret Key</span>
+                    <span class="menu-option">Manage Secret Key</span>
                 </a>
             </div>
         </div>
