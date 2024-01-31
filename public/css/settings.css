@@ -15,7 +15,7 @@ header {
     /* align-items: center; */
 }
 
-.add_password_title {
+.settings_title {
     display: inline-block;
     color: white;
     text-align: center;
@@ -83,31 +83,11 @@ input {
     color: white;
 }
 
-#category {
-    font-size: 20px;
-    color: white;
-    background-color: transparent;
-    border: 1px solid #ff9900; /* Golden border color */
-    border-radius: 5px;
+#new_name {
+    width: 380px;
 }
 
-#twoFactorInfo {
-    color: white;
-    font-size: 22px;
-    outline: none;
-    background-color: transparent;
-    border: 1px solid #ff9900; /* Golden border color */
-    border-radius: 5px;
-}
-
-select, textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 16px;
-    box-sizing: border-box;
-}
-
-.add_password_btn {
+.save_btn {
     background-color: #0099ff;
     padding: 14px;
     border: none;
@@ -116,11 +96,11 @@ select, textarea {
     width: 220px;
 }
 
-.add_password_btn:hover {
+.save_btn:hover {
     background-color: rgb(0, 102, 255);
 }
 
-.add_password_link {
+.save_link {
     font-size: 24px;
     text-decoration: none;
     color: black;
@@ -145,4 +125,23 @@ select, textarea {
     font-size: 24px;
     text-decoration: none;
     color: white;
+}
+
+.delete_account_btn {
+    width: 380px;
+    background-color: transparent;
+    border: 1.5px solid red;
+    border-radius: 4px;
+    padding: 10px;
+    margin-left: 0;
+}
+
+.delete_account_btn:hover{
+    background-color: rgba(255,0,0,0.3);
+}
+
+.delete_account_link {
+    color: red;
+    text-decoration: none;
+    font-size: 24px;
 }

@@ -24,18 +24,18 @@
                 </a>
             </div>
             <div class="menu-items">
-                <a href="#" class="view-passwords">
+                <a href="view_passwords.php" class="view-passwords">
                     <span class="menu-option">View Passwords</span>
                 </a>
             </div>
             <div class="menu-items">
-                <a href="#" class="settings">
+                <a href="settings.php" class="settings">
                     <span class="menu-option">Settings</span>
                 </a>
             </div>
             <div class="menu-items">
-                <a href="#" class="secret-key">
-                    <span class="menu-option">Manage Secret Key</span>
+                <a href="support.php" class="help-support">
+                    <span class="menu-option">Help &amp; Support</span>
                 </a>
             </div>
         </div>

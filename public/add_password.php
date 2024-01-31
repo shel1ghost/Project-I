@@ -25,8 +25,8 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password">
 
-        <label for="secretKey">Secret Key:</label>
-        <input type="text" id="secretKey" name="secretKey">
+        <label for="ciphershield_pass">CipherShield Password:</label>
+        <input type="password" id="ciphershield_pass" name="ciphershield_pass">
 
         </div>
 
@@ -46,8 +46,13 @@
         <textarea id="twoFactorInfo" name="twoFactorInfo" rows="2"></textarea>
 
         </div>
-
-        <button type="submit">Add Password</button>
+        <button class="add_password_btn" type="submit">
+            <a class="add_password_link" href="dashboard.php">Add Password</a>
+        </button>
+        <button class="cancel_btn">
+            <a class="cancel_link" href="dashboard.php">Cancel</a>
+        </button>
+        
     </form>
 </body>
 </html>

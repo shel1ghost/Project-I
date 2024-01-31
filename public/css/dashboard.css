@@ -161,8 +161,8 @@ p {
     background-repeat: no-repeat;
 }
 
-.secret-key {
-    background-image: url('../images/key-solid.svg');
+.help-support {
+    background-image: url('../images/circle-info-solid.svg');
     background-size: contain;
     background-repeat: no-repeat;
 }
