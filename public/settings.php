@@ -35,19 +35,22 @@
         <input type="text" id="new_name" name="new_name">
 
         <h2>Account Deletion</h2>
-        <button class="delete_account_btn" type="submit">
-            <a class="delete_account_link" href="#">Delete Account</a>
-        </button>
+        <button class="delete_account_btn" type="button" onclick="redirectTo('delete')">Delete</button>
         </div>
 
-        <button class="save_btn" type="submit">
-            <a class="save_link" href="#">Save Changes</a>
-        </button>
-        <button class="cancel_btn" type="submit">
-            <a class="cancel_link" href="dashboard.php">Cancel</a>
-        </button>
+        <button class="save_btn" type="submit">Save Changes</button>
+
+        <button class="cancel_btn" type="button" onclick="redirectTo('dashboard')">Cancel</button>
         
     </form>
-
+    <script>
+        function redirectTo(page){
+            if(page === 'delete'){
+                window.location.href = "delete.php";
+            }else{
+                window.location.href = "dashboard.php";
+            }
+        }
+    </script>
 </body>
 </html>

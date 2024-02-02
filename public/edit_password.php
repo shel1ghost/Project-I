@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Password - CipherShield</title>
-    <link rel="stylesheet" href="./css/add_password.css"/>
+    <title>Edit Password | CipherShield</title>
+    <link rel="stylesheet" href="./css/edit_password.css"/>
 </head>
 <body>
     <header>
         <div class="logo"></div>
-        <div class="add_password_title">
-            <h1>Add Password - CipherShield</h1>
+        <div class="edit_title">
+            <h1>Edit Password - CipherShield</h1>
         </div>
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
@@ -46,14 +46,14 @@
         <textarea id="twoFactorInfo" name="twoFactorInfo" rows="2"></textarea>
 
         </div>
-        <button class="add_password_btn" type="submit">Add Password</button>
+        <button class="add_password_btn" type="submit">Update Password</button>
         <button class="cancel_btn" type="button" onclick="redirectToDashboard()">Cancel</button>
         
     </form>
     <script>
-    function redirectToDashboard() {
-        window.location.href = "dashboard.php";
-    }
-</script>
+        function redirectToDashboard() {
+            window.location.href = "dashboard.php";
+        }
+    </script>
 </body>
 </html>

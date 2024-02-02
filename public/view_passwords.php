@@ -35,7 +35,7 @@
                     <td>Social</td>
                     <td>None</td>
                     <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn">Edit</button><button class="delete_btn">Delete</button></td>
+                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
                 </tr>
                 <tr>
                     <td class="name_row">Facebook</td>
@@ -44,7 +44,7 @@
                     <td>Social</td>
                     <td>None</td>
                     <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn">Edit</button><button class="delete_btn">Delete</button></td>
+                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
                 </tr>
                 <tr>
                     <td class="name_row">Facebook</td>
@@ -53,7 +53,7 @@
                     <td>Social</td>
                     <td>None</td>
                     <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn">Edit</button><button class="delete_btn">Delete</button></td>
+                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
                 </tr>
                 <tr>
                     <td class="name_row">Facebook</td>
@@ -62,7 +62,7 @@
                     <td>Social</td>
                     <td>None</td>
                     <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn">Edit</button><button class="delete_btn">Delete</button></td>
+                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
                 </tr>
                 <tr>
                     <td class="name_row">Facebook</td>
@@ -71,7 +71,7 @@
                     <td>Social</td>
                     <td>None</td>
                     <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn">Edit</button><button class="delete_btn">Delete</button></td>
+                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
                 </tr>
                 <tr>
                     <td class="name_row">Facebook</td>
@@ -80,11 +80,20 @@
                     <td>Social</td>
                     <td>None</td>
                     <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn">Edit</button><button class="delete_btn">Delete</button></td>
+                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
                 </tr>
                 
             </tbody>
         </table>
     </div>
+    <script>
+        function redirectTo(page){
+            if(page === 'edit'){
+                window.location.href = "edit_password.php";
+            }else{
+                window.location.href = "delete_password.php";
+            }
+        }
+    </script>
 </body>
 </html>

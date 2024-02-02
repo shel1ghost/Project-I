@@ -28,25 +28,24 @@
             <p>
                 <b>How do I change CipherShield's password?</b>
                 <br/>
-                <span>CipherShield uses the best modern algorithm available
-                    today to protect users passwords. It is very much concerned
-                    with security regarding it's users as well as the application.
+                <span>You can simply navigate to dashboard > settings and there you
+                    will find the information regarding changing your ciphershield password.
                 </span>
             </p>
             <p>
-                <b>How do I change CipherShield's password?</b>
+                <b>Does CipherShield password genrator gives strong password?</b>
                 <br/>
-                <span>CipherShield uses the best modern algorithm available
-                    today to protect users passwords. It is very much concerned
-                    with security regarding it's users as well as the application.
+                <span>Surely, it generates passwords with the combination of different
+                    alphabets, numbers and special characters which makes your password
+                    strong enough.
                 </span>
             </p>
             <p>
-                <b>How do I change CipherShield's password?</b>
+                <b>Can I store my banking passwords in CipherShield?</b>
                 <br/>
-                <span>CipherShield uses the best modern algorithm available
-                    today to protect users passwords. It is very much concerned
-                    with security regarding it's users as well as the application.
+                <span>Absolutely, you can store your any kind of passwords in CipherShield,
+                    users data are completely private with CipherShield, feel free to save 
+                    all kinds of passwords.
                 </span>
             </p>
         </div>
@@ -65,6 +64,8 @@
                 <li><b>Support Contact Number:</b> +977 9802356806</li>
                 <li><b>Email:</b> support@ciphershield.com</li>
             </ul>
+            <p>Feel free to reach us for any kind of queries and issues.<br/>
+            We'll be available for you anytime.
         </div>
     </div>
 </body>

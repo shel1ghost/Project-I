@@ -15,10 +15,14 @@ header {
     /* align-items: center; */
 }
 
-.support_title {
+.delete_title {
     display: inline-block;
     color: white;
     text-align: center;
+}
+
+h1 span {
+    color: red;
 }
 
 .logo {
@@ -49,52 +53,65 @@ header {
 }
 
 .main {
-    display: flex;
-}
-
-.faqs {
-    height: 440px;
-    width: 620px;
+    width: 800px;
     margin: auto;
-    padding: 10px;
-    text-align: justify;
-    border-right: 1.5px solid #0099ff;
-}
-
-.contact {
-    height: 440px;
-    width: 620px;
-    margin: auto;
-    padding: 10px;
-}
-
-.contact p {
-    color: gray;
-    font-size: 20px;
-    margin-left: 20px;
 }
 
 h2 {
     color: #0099ff;
-    font-size: 26px;
-}
-
-p {
-    font-style: italic;
-    font-size: 17px;
-}
-
-p b {
-    color: white;
-    font-family: cursive;
-    font-size: 22px;
 }
 
 li {
     font-size: 20px;
 }
 
-li b {
-    color: white;
+form {
+    text-align: center;
 }
 
+label {
+    color: white;
+    font-size: 20px;
+}
+
+input {
+    margin: 12px;
+    width: 288px;
+    outline: none;
+    font-size: 20px;
+    background-color: transparent;
+    color: white;
+    border: 1.5px solid #ff9900;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.cancel_btn {
+    font-size: 18px;
+    background-color: #0099ff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 140px;
+    padding: 10px;
+}
+
+.cancel_btn:hover {
+    background-color: rgb(0, 102, 255);
+}
+
+.delete_btn {
+    font-size: 18px;
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 140px;
+    margin-left: 6px;
+}
+
+.delete_btn:hover {
+    background-color: rgb(218, 43, 20);
+}
