@@ -54,6 +54,6 @@
     function redirectToDashboard() {
         window.location.href = "dashboard.php";
     }
-</script>
+    </script>
 </body>
 </html>
