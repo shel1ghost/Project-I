@@ -50,3 +50,7 @@ p {
 color: white;
 text-align: center;
 }
+
+.error_msg {
+    color: red;
+}

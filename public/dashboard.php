@@ -24,7 +24,7 @@
                 </a>
             </div>
             <div class="menu-items">
-                <a href="view_passwords.php" class="view-passwords">
+                <a href="access_passwords.php" class="view-passwords">
                     <span class="menu-option">View Passwords</span>
                 </a>
             </div>

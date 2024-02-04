@@ -1,3 +1,4 @@
+<?php require '../validators/login_validator.php' ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +15,13 @@
         </div>
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
-    <form method="POST" action="view_passwords.php">
+    <form method="POST" action="#">
         <p>Please enter CipherShield's password to continue</p>
         <div>
-            <label for="ciphershield_pass">CipherShield Password:</label>
-            <input type="password" id="ciphershield_pass" name="ciphershield_pass">
+            <label for="password">CipherShield Password:</label>
+            <input type="password" id="password" name="password">
+            <br/>
+            <span class="error_msg"><?php echo isset($err_password) ? $err_password:''; ?></span>
         </div>
         <button class="view_password_btn" type="submit">View Password</button>
         <button class="cancel_btn" type="button" onclick="redirectToDashboard()">Cancel</button>

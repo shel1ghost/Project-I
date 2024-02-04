@@ -4,7 +4,7 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 380px;
-    margin: auto;
+    margin: 0 auto 0 auto;
 }
 
 .registration-form h2 {
@@ -49,4 +49,8 @@ font-size: 18px;
 p {
 color: white;
 text-align: center;
+}
+
+.error_msg {
+    color: red;
 }
