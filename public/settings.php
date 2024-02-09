@@ -22,7 +22,7 @@
         <input type="password" id="current_password" name="current_password">
 
         <label for="new_password">New Password:</label>
-        <input type="new_password" id="new_password" name="new_password">
+        <input type="password" id="new_password" name="new_password">
 
         <label for="re_new_password">Re-type New Password:</label>
         <input type="password" id="re_new_password" name="re_new_password">

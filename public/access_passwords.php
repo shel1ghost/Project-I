@@ -1,4 +1,7 @@
-<?php require '../validators/login_validator.php' ?>
+<?php 
+$documentRoot = $_SERVER['DOCUMENT_ROOT'];
+require $documentRoot.'/src/Controller/login_validator.php' 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

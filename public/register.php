@@ -1,5 +1,8 @@
-<?php require '../templates/header.php' ?>
-<?php require '../validators/registration_validator.php' ?>
+<?php 
+    $documentRoot = $_SERVER['DOCUMENT_ROOT'];
+    require $documentRoot.'/templates/header.php';
+    require $documentRoot.'/src/Controller/register_user.php'; 
+?>
 <link rel="stylesheet" href="./css/register.css" />
 <title>Register | CipherShield</title>
     <div class="registration-form">

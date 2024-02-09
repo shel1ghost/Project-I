@@ -1,9 +1,13 @@
-<?php require '../templates/header.php' ?>
-<?php require '../validators/login_validator.php' ?>
+<?php 
+$documentRoot = $_SERVER['DOCUMENT_ROOT'];
+require $documentRoot.'/templates/header.php';
+require $documentRoot.'/src/Controller/login_user.php';
+?>
 <title>Login | CipherShield</title>
 <link rel="stylesheet" href="./css/login.css" />
     <div class="login-form">
         <h2>CipherShield Login</h2>
+        <p class="login_error"><?php echo $login_error;?></p>
         <form action="#" method="post">
             <div class="form-group">
                 <label for="email">Email:</label>
@@ -25,5 +29,5 @@
 	    <p>Don't have an account? <a href="register.php">Register here</a></p>
         </form>
     </div>
-<?php require '../templates/footer.php' ?>
+<?php require $documentRoot.'/templates/footer.php' ?>
 
