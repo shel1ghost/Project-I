@@ -18,7 +18,7 @@
     <header>
         <div class="logo"></div>
         <div class="welcome">
-            <h1>Welcome to CipherShield User!</h1>
+            <h1>Welcome to CipherShield <?php echo($_SESSION['name']);?>!</h1>
         </div>
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>

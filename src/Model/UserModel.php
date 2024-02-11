@@ -40,5 +40,16 @@ class UserModel {
             return false;
         }
     }
+
+    public function getUserName($email) {
+        $stmt = $this->conn->prepare("SELECT name FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($username);
+        $stmt->fetch();
+        $stmt->close();
+
+        return $username; 
+    }
 }
 ?>

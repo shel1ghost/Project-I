@@ -27,6 +27,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if($user){
             session_start();
             $_SESSION['email'] = $email;
+            $_SESSION['name'] = $user_model->getUserName($email);
             header("Location: dashboard.php");
         }else{
             $login_error = "Invalid Credentials!";

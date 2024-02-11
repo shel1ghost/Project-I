@@ -1,4 +1,10 @@
-<?php require('../validators/add_pass_validator.php'); ?>
+<?php
+session_start();
+if(!isset($_SESSION['email'])){
+    header('Location: login.php');
+} 
+require('../validators/add_pass_validator.php'); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

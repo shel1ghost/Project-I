@@ -12,7 +12,6 @@
         <div class="support_title">
             <h1>Help &amp; Support - CipherShield</h1>
         </div>
-        <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
     <div class="main">
         <div class="faqs">

@@ -1,4 +1,8 @@
 <?php 
+session_start();
+if(!isset($_SESSION['email'])){
+    header('Location: login.php');
+}
 $documentRoot = $_SERVER['DOCUMENT_ROOT'];
 require($documentRoot.'/src/Controller/add_pass_validator.php')
 ?>
@@ -68,7 +72,7 @@ require($documentRoot.'/src/Controller/add_pass_validator.php')
             <label for="twofa_checkbox">Add 2FA Information</label>
         </div>
 
-        <textarea id="twoFactorInfo" name="twoFactorInfo" rows="1" class="hidden" value="<?php echo htmlspecialchars($twoFactorInfo);?>"></textarea>
+        <textarea id="twoFactorInfo" name="twoFactorInfo" rows="1" class="hidden"><?php echo htmlspecialchars($twoFactorInfo);?></textarea>
         <span class="error_msg"><?php echo isset($err_twoFactorInfo) ? $err_twoFactorInfo:''; ?></span>
         <br/><br/>
         </div>
@@ -80,13 +84,25 @@ require($documentRoot.'/src/Controller/add_pass_validator.php')
     const checkbox = document.getElementById('twofa_checkbox');
     const textArea = document.getElementById('twoFactorInfo');
 
-    checkbox.addEventListener('change', function() {
-        if (checkbox.checked) {
-            textArea.classList.remove('hidden');
-        }else {
-             textArea.classList.add('hidden');
-        }
-    });
+    if(checkbox.checked){
+        textArea.classList.remove('hidden');
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                textArea.classList.remove('hidden');
+            }else {
+                textArea.classList.add('hidden');
+            }
+        });
+    }else{
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                textArea.classList.remove('hidden');
+            }else {
+                textArea.classList.add('hidden');
+            }
+        });
+    }
+
     function redirectToDashboard() {
         window.location.href = "dashboard.php";
     }
