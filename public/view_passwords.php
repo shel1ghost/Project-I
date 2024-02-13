@@ -2,6 +2,8 @@
 session_start();
 if(!isset($_SESSION['email'])){
     header('Location: login.php');
+}else if(!$_SESSION['authorized_user']){
+    header('Location: access_passwords.php');
 }
 ?>
 <!DOCTYPE html>

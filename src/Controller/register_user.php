@@ -18,7 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
 
     if(isset($_POST['email']) && !empty(trim($_POST['email']))){
-        $email = trim($_POST['email']);
+        $email = strtolower(trim($_POST['email']));
         if(!preg_match("/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/",$email)){
             $err_email = "Please enter a valid email";
         }

@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $err_email = "Please enter email.";
         $error++;
     }else{
-        $email = $_POST['email'];
+        $email = strtolower($_POST['email']);
     }
 
     if(isset($_POST['password']) && empty(trim($_POST['password']))){

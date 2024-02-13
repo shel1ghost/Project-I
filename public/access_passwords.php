@@ -1,10 +1,6 @@
 <?php 
-session_start();
-if(!isset($_SESSION['email'])){
-    header('Location: login.php');
-}
-$documentRoot = $_SERVER['DOCUMENT_ROOT'];
-require $documentRoot.'/src/Controller/login_validator.php' 
+$documentRoot = $_SERVER['DOCUMENT_ROOT']; 
+require($documentRoot.'/src/Controller/access_pass.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
