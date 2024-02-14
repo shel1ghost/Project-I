@@ -40,7 +40,7 @@ if(!isset($_SESSION['email'])){
                 please feel free to reach our customer support page <a href="support.php">here.<a>
             </li>
         </ul>
-        <form method="POST">
+        <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <div>
                 <label for="delete_password">Enter your password to continue:</label>
                 <br/>

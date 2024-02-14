@@ -84,7 +84,6 @@ header {
 p {
     color: white;
     font-size: 20px;
-    margin-bottom: 4px;
 }
 
 #password_field {
@@ -93,7 +92,7 @@ p {
     padding: 16px;
     border-radius: 12px;
     border: 1px solid gray;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     outline: none;
     box-shadow: -0.5px 0.5px 6px 0 gray;
 }
@@ -173,4 +172,17 @@ p {
     font-weight: bold;
     color: black;
 
+}
+
+.copy {
+    text-align: justify;
+    margin: 0 0 0 34px;
+    padding: 0;
+    font-size: 16px;
+}
+
+.copy img{
+    height: 25px;
+    width: 25px;
+    margin-right: 4px;
 }

@@ -48,9 +48,9 @@
         <div class="password-generator">
             <h2 class="generator_title">CipherShield <br/> Password Generator</h2>
             <p>Generate a strong password quickly :)</p>
-            <br/>
                 <div>
                     <input type="text" id="password_field" placeholder="Click the button to generate password">
+                    <p class="copy"><img src="./images/copy-solid.svg"/><span id="copy_status">COPY</span></p>
                 </div>
                 <div>
                 <label for="password_length" class="password_length">Select password length:</label>
@@ -64,7 +64,7 @@
                 </select>     
                 </div>
                 <div>
-                    <button class="generate_button" onclick="displayRandomPassword()">Generate Password</button>
+                    <button class="generate_button">Generate Password</button>
                 </div>
         </div>
     </div> 

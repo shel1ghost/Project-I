@@ -18,7 +18,7 @@ require($documentRoot.'/src/Controller/access_pass.php');
         </div>
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
-    <form method="POST" action="#">
+    <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <p>Please enter CipherShield's password to continue</p>
         <div>
             <label for="password">CipherShield Password:</label>

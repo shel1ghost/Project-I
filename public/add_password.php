@@ -22,7 +22,7 @@ require($documentRoot.'/src/Controller/add_pass_validator.php')
         </div>
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
-    <form method="POST" action="#">
+    <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <div class="column">
         <label for="appName">Application Name:</label>
         <input type="text" id="appName" name="appName" value="<?php echo $appName;?>">

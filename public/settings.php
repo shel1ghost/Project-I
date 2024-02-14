@@ -22,7 +22,7 @@ if(!isset($_SESSION['email'])){
         </div>
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
-    <form method="POST" action="#">
+    <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <div class="column">
         <span class="error_msg"><?php echo isset($err_settings) ? $err_settings:'';?></span>
         <h2>Change Password</h2>

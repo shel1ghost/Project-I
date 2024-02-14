@@ -8,7 +8,7 @@ require $documentRoot.'/src/Controller/login_user.php';
     <div class="login-form">
         <h2>CipherShield Login</h2>
         <p class="login_error"><?php echo $login_error;?></p>
-        <form action="#" method="post">
+        <form action="<?php echo $_SERVER['SELF']; ?>" method="post">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="text" id="email" name="email" value="<?php echo $email;?>">
