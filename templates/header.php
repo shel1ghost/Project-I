@@ -15,10 +15,7 @@
         </div>
     </nav>
     <script>
-        // Get the current page filename (e.g., "home.php" or "about.php")
         const currentPage = window.location.pathname.split("/").pop();
-
-        // Find the corresponding link and add the "active" class
         const activeLink = document.getElementById(currentPage.replace('.php', 'Link'));
         if (activeLink) {
             activeLink.classList.add('active');

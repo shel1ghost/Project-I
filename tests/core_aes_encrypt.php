@@ -28,7 +28,8 @@ $roundConstants = [
 
 // AES Key Expansion
 function keyExpansion($key) {
-    $w = [];
+  global $sBox;
+  $w = [];
     for ($i = 0; $i < 4; $i++) {
         $w[$i] = array_slice($key, $i * 4, 4);
     }
@@ -44,7 +45,7 @@ function keyExpansion($key) {
             $temp[0] ^= $roundConstants[$i / 4 - 1];
         }
         for ($j = 0; $j < 4; $j++) {
-            $w[$i][$j] = $w[$i - 4][$j] ^ $temp[$j];
+            $w[$i][$j] = $w[$i - 4][$j] ^ $temp[$j % 4];
         }
     }
     return $w;

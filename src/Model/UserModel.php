@@ -7,7 +7,6 @@ class UserModel {
     }
 
     public function createUser($name, $email, $password) {
-        // Check if the username already exists
         $stmt = $this->conn->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -15,7 +14,6 @@ class UserModel {
         $stmt->fetch();
         $stmt->close();
 
-        // If username already exists, return false
         if ($count > 0) {
             return false;
         }else{
@@ -50,6 +48,13 @@ class UserModel {
         $stmt->close();
 
         return $username; 
+    }
+
+    public function deleteUser($email) {
+        $sql = "DELETE FROM users WHERE email = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        return $stmt->execute();
     }
 }
 ?>
