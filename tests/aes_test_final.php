@@ -167,16 +167,6 @@ function encryptAESFromArray(array $plaintext, array $key, $sBox, $roundConstant
     return $state;
 }
 
-// Helper function to convert a hex string to a 2D array
-function convertStringTo2DArray($string) {
-    $array = [];
-    $length = strlen($string);
-    for ($i = 0; $i < $length; $i += 8) {
-        $array[] = str_split(substr($string, $i, 8), 2);
-    }
-    return $array;
-}
-
 // Example usage:
 $plaintext = "00112233445566778899aabbccddeeff";
 $key = "000102030405060708090a0b0c0d0e0f";

@@ -22,6 +22,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $stmt->fetch();
         $stmt->close();
         if(password_verify($password, $db_hashed_password)){
+            $key = md5($password);
             $_SESSION['authorized_user'] = true;
             header('Location: view_passwords.php');
         }else{

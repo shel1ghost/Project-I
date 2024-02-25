@@ -27,34 +27,46 @@ $roundConstants = [
 ];
 
 // AES Key Expansion
-function keyExpansion($key) {
-  global $sBox;
-  $w = [];
+function keyExpansion($key, $sbox, $round_constants) {
+    $w = [];
+
+    // Initialize the first four words of the key schedule to the input key
     for ($i = 0; $i < 4; $i++) {
         $w[$i] = array_slice($key, $i * 4, 4);
     }
+
+    // Generate the subsequent words of the key schedule
     for ($i = 4; $i < 44; $i++) {
         $temp = $w[$i - 1];
-        if ($i % 4 == 0) {
-            // RotWord
+
+        // Perform key schedule core for every fourth word
+        if ($i % 4 === 0) {
+            // Rotate word
             $temp = [$temp[1], $temp[2], $temp[3], $temp[0]];
-            // SubWord
+
+            // Substitute bytes using S-box
             for ($j = 0; $j < 4; $j++) {
-                $temp[$j] = $sBox[$temp[$j]];
+                $temp[$j] = $sbox[$temp[$j]];
             }
-            $temp[0] ^= $roundConstants[$i / 4 - 1];
+
+            // XOR with round constant
+            $temp[0] ^= $round_constants[$i / 4 - 1];
         }
+
+        // XOR with word 4 positions earlier
         for ($j = 0; $j < 4; $j++) {
-            $w[$i][$j] = $w[$i - 4][$j] ^ $temp[$j % 4];
+            $w[$i][$j] = $w[$i - 4][$j] ^ $temp[$j];
         }
     }
+
     return $w;
 }
 
 // AES Encryption
 function aesEncrypt($plaintext, $key) {
+    global $sbox, $round_constants;
     $state = [];
-    $w = keyExpansion($key);
+    $w = keyExpansion($key, $sbox, $round_constants);
     // Initialize state
     for ($i = 0; $i < 4; $i++) {
         $state[$i] = array_slice($plaintext, $i * 4, 4);

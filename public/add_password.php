@@ -4,7 +4,7 @@ if(!isset($_SESSION['email'])){
     header('Location: login.php');
 }
 $documentRoot = $_SERVER['DOCUMENT_ROOT'];
-require($documentRoot.'/src/Controller/add_pass_validator.php')
+require($documentRoot.'/src/Controller/add_pass_validator.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,25 +22,27 @@ require($documentRoot.'/src/Controller/add_pass_validator.php')
         </div>
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
+    <p class="error_add_pass"><?php echo isset($error_add_pass)?$error_add_pass:'';?></p>
+    <p class="success_add_pass"><?php echo isset($success_add_pass)?$success_add_pass:'';?></p>
     <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <div class="column">
         <label for="appName">Application Name:</label>
-        <input type="text" id="appName" name="appName" value="<?php echo $appName;?>">
+        <input type="text" id="appName" name="appName" value="<?php echo isset($appName)?$appName:'';?>">
         <span class="error_msg"><?php echo isset($err_appName) ? $err_appName:''; ?></span>
         <br/><br/>
 
         <label for="userID">UserID:</label>
-        <input type="text" id="userID" name="userID" value="<?php echo $userID;?>">
+        <input type="text" id="userID" name="userID" value="<?php echo isset($app_userID)?$app_userID:'';?>">
         <span class="error_msg"><?php echo isset($err_userID) ? $err_userID:''; ?></span>
         <br/><br/>
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password" value="<?php echo isset($password)?$password:'';?>">
         <span class="error_msg"><?php echo isset($err_password) ? $err_password:''; ?></span>
         <br/><br/>
 
         <label for="ciphershield_pass">CipherShield Password:</label>
-        <input type="password" id="ciphershield_pass" name="ciphershield_pass">
+        <input type="password" id="ciphershield_pass" name="ciphershield_pass" value="<?php echo isset($ciphershield_pass)?$ciphershield_pass:'';?>">
         <span class="error_msg"><?php echo isset($err_ciphershield_pass) ? $err_ciphershield_pass:''; ?></span>
         <br/><br/>
 
@@ -58,9 +60,10 @@ require($documentRoot.'/src/Controller/add_pass_validator.php')
         <br/><br/>
 
         <label for="securityQuestion">Security QN/A (if any):</label>
-        <input type="text" id="securityQuestion" name="securityQuestion" placeholder="Security question..." value="<?php echo $securityQuestion;?>">
+        <input type="text" id="securityQuestion" name="securityQuestion" placeholder="Security question..." value="<?php echo isset($securityQuestion)?$securityQuestion:'';?>">
         <br/><br/>
-        <input type="text" id="securityAnswer" name="securityAnswer" placeholder="Answer..." value="<?php echo $securityAnswer;?>">
+        <input type="text" id="securityAnswer" name="securityAnswer" placeholder="Answer..." value="<?php echo isset($securityAnswer)?$securityAnswer:'';?>">
+        <span class="error_msg"><?php echo isset($err_security_qna)?$err_security_qna:''; ?></span>
         <br/><br/>
         <!-- <div class="checkbox_container">
             <input type="checkbox" id="twofa_checkbox" name="twofa_checkbox">
@@ -68,11 +71,11 @@ require($documentRoot.'/src/Controller/add_pass_validator.php')
         </div> -->
 
         <div class="flex-container">
-            <input type="checkbox" name="twofa_checkbox" id="twofa_checkbox" <?php echo $twofa_checkbox; ?>>
+            <input type="checkbox" name="twofa_checkbox" id="twofa_checkbox" <?php echo isset($twofa_checkbox)?$twofa_checkbox:''; ?>>
             <label for="twofa_checkbox">Add 2FA Information</label>
         </div>
 
-        <textarea id="twoFactorInfo" name="twoFactorInfo" rows="1" class="hidden"><?php echo htmlspecialchars($twoFactorInfo);?></textarea>
+        <textarea id="twoFactorInfo" name="twoFactorInfo" rows="1" class="hidden"><?php echo isset($twoFactorInfo)?htmlspecialchars($twoFactorInfo):'';?></textarea>
         <span class="error_msg"><?php echo isset($err_twoFactorInfo) ? $err_twoFactorInfo:''; ?></span>
         <br/><br/>
         </div>

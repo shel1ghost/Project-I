@@ -5,6 +5,9 @@ if(!isset($_SESSION['email'])){
 }else if(!$_SESSION['authorized_user']){
     header('Location: access_passwords.php');
 }
+$documentRoot = $_SERVER['DOCUMENT_ROOT'];
+require($documentRoot.'/config/database.php');
+require($documentRoot.'/src/Controller/aes.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,83 +26,78 @@ if(!isset($_SESSION['email'])){
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
     <div class="main">
-        <table>
-            <thead>
-                <tr>
-                    <th class="application_name">Application Name</th>
-                    <th class="user_id">UserID</th>
-                    <th class="password_heading">Password</th>
-                    <th class="category">Category</th>
-                    <th class="sec_qna">Security QN/A</th>
-                    <th class="twofa">2FA Info</th>
-                    <th class="actions_heading">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="name_row">Facebook</td>
-                    <td>miss.programmerr</td>
-                    <td>apnabanale123@#$</td>
-                    <td>Social</td>
-                    <td>None</td>
-                    <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
-                </tr>
-                <tr>
-                    <td class="name_row">Facebook</td>
-                    <td>miss.programmerr</td>
-                    <td>apnabanale123@#$</td>
-                    <td>Social</td>
-                    <td>None</td>
-                    <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
-                </tr>
-                <tr>
-                    <td class="name_row">Facebook</td>
-                    <td>miss.programmerr</td>
-                    <td>apnabanale123@#$</td>
-                    <td>Social</td>
-                    <td>None</td>
-                    <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
-                </tr>
-                <tr>
-                    <td class="name_row">Facebook</td>
-                    <td>miss.programmerr</td>
-                    <td>apnabanale123@#$</td>
-                    <td>Social</td>
-                    <td>None</td>
-                    <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
-                </tr>
-                <tr>
-                    <td class="name_row">Facebook</td>
-                    <td>miss.programmerr</td>
-                    <td>apnabanale123@#$</td>
-                    <td>Social</td>
-                    <td>None</td>
-                    <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
-                </tr>
-                <tr>
-                    <td class="name_row">Facebook</td>
-                    <td>miss.programmerr</td>
-                    <td>apnabanale123@#$</td>
-                    <td>Social</td>
-                    <td>None</td>
-                    <td>Samsung device approval or Pin code number</td>
-                    <td><button class="edit_btn" type="button" onclick="redirectTo('edit')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo('delete')">Delete</button></td>
-                </tr>
-                
-            </tbody>
-        </table>
+        <?php
+        $email = $_SESSION['email'];
+        $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($user_id);
+        $stmt->fetch();
+        $stmt->close();
+
+        $category = ["Social", "Banking", "Gmail", "Others"];
+
+        for($i=0; $i<count($category); $i++){
+        $stmt = $conn->prepare("SELECT application_name, app_user_id, password, security_question, security_answer, twofa_info, created_at FROM passwords WHERE user_id = ? AND category=?");
+        $stmt->bind_param("is", $user_id, $category[$i]);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            echo '<h3 class="category_heading">'.$category[$i].'</h3>';
+            echo "<table>";
+            echo "<thead>";
+            echo "<tr>
+            <th class='application_name'>Application Name</th>
+            <th class='user_id'>UserID</th>
+            <th class='password_heading'>Password</th>
+            <th class='sec_qna'>Security QN/A</th>
+            <th class='twofa'>2FA Info</th>
+            <th class='created_at'>Created At</th>
+            <th class='actions_heading'>Actions</th>
+            </tr>";
+            echo "</thead>";
+            echo "<tbody>";
+            while($row = $result->fetch_assoc()) {
+                echo '<tr>';
+                echo '<td class="name_row">'.$row['application_name'].'</td>';
+                echo '<td>'.$row['app_user_id'].'</td>';
+                echo '<td>';
+                //password dekhaune logic
+                echo '</td>';
+                echo '<td>';
+                if($row['security_question'] !== null){
+                    echo $row['security_question'].' -> '.$row['security_answer'];
+                }else{ 
+                    echo 'None';
+                }
+                echo '</td>';
+                echo '<td>';
+                if($row['twofa_info'] !== null){
+                    echo $row['twofa_info'];
+                }else{
+                    echo 'None';
+                }
+                echo '</td>';
+                echo '<td>'.$row['created_at'].'</td>';
+                echo '<td><button class="edit_btn" type="button" onclick="redirectTo(\'edit\')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo(\'delete\')">Delete</button></td>';
+                echo '</tr>';
+            }
+            echo "</tbody>";
+            echo "</table>";
+        }
+        $stmt->close(); 
+    }
+        ?>
     </div>
     <script>
         function redirectTo(page){
             if(page === 'edit'){
                 window.location.href = "edit_password.php";
             }else{
-                window.location.href = "delete_password.php";
+                let confirm = window.confirm("Are you sure you want to delete?");
+                if(confirm){
+                    window.location.href = "delete_password.php";
+                }
             }
         }
     </script>

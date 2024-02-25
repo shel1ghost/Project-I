@@ -1,17 +1,17 @@
 <?php
 
-class Password {
+class PasswordModel {
     private $conn;
 
     public function __construct($conn) {
         $this->conn = $conn;
     }
 
-    public function createPassword($user_id, $application_name, $password, $category, $security_question, $security_answer, $two_factor_info) {
-        $sql = "INSERT INTO passwords (user_id, application_name, password, category, security_question, security_answer, twofa_info) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public function createPassword($user_id, $application_name, $app_userID, $password, $category, $security_question = null, $security_answer = null, $two_factor_info = null) {
+        $sql = "INSERT INTO passwords (user_id, application_name, app_user_id, password, category, security_question, security_answer, twofa_info) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("issssss", $user_id, $application_name, $password, $category, $security_question, $security_answer, $two_factor_info);
+        $stmt->bind_param("isssssss", $user_id, $application_name, $app_userID, $password, $category, $security_question, $security_answer, $two_factor_info);
         return $stmt->execute();
     }
 

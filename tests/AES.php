@@ -1,3 +1,4 @@
+<?php
 $sbox = [
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
     0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
@@ -21,6 +22,181 @@ $round_constants = [
     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36
 ];
 
-$plaintext = "00112233445566778899aabbccddeeff";
-$key = "000102030405060708090a0b0c0d0e0f";
 
+function key_expansion($key, $sbox, $round_constants) {
+    $w = [];
+
+    // Initialize the first four words of the key schedule to the input key
+    for ($i = 0; $i < 4; $i++) {
+        $w[$i] = array_slice($key, $i * 4, 4);
+    }
+
+    // Generate the subsequent words of the key schedule
+    for ($i = 4; $i < 44; $i++) {
+        $temp = $w[$i - 1];
+
+        // Perform key schedule core for every fourth word
+        if ($i % 4 === 0) {
+            // Rotate word
+            $temp = [$temp[1], $temp[2], $temp[3], $temp[0]];
+
+            // Substitute bytes using S-box
+            for ($j = 0; $j < 4; $j++) {
+                $temp[$j] = $sbox[$temp[$j]];
+            }
+
+            // XOR with round constant
+            $temp[0] ^= $round_constants[$i / 4 - 1];
+        }
+
+        // XOR with word 4 positions earlier
+        for ($j = 0; $j < 4; $j++) {
+            $w[$i][$j] = $w[$i - 4][$j] ^ $temp[$j];
+        }
+    }
+
+    return $w;
+}
+
+function plaintextToMatrix($plaintext) {
+    // Convert the plaintext to ASCII representation
+    $plaintextBytes = str_split($plaintext);
+
+    // Pad the plaintext if its length is less than 16 bytes
+    $plaintextBytes = array_pad($plaintextBytes, 16, ' ');
+
+    // Convert each character to its hexadecimal representation
+    $hexValues = array_map(function ($char) {
+        // Get the ASCII value of the character and convert it to its hexadecimal representation
+        $hexValue = strtoupper(str_pad(dechex(ord($char)), 2, '0', STR_PAD_LEFT));
+        // Convert the hexadecimal representation to decimal
+        return hexdec($hexValue);
+    }, $plaintextBytes);
+
+    // Chunk the hexadecimal values into 4x4 matrix
+    $matrix = array_chunk($hexValues, 4);
+
+    return $matrix;
+}
+
+
+function keyStringToMatrix($keyString) {
+    // Convert the key string to uppercase to ensure consistency
+    $keyString = strtoupper($keyString);
+    
+    // Remove any non-hexadecimal characters
+    $keyString = preg_replace('/[^A-F0-9]/', '', $keyString);
+    
+    // Ensure the key has exactly 32 characters (16 bytes)
+    if (strlen($keyString) !== 32) {
+        throw new InvalidArgumentException("Invalid key length. The key must be 32 hexadecimal characters long.");
+    }
+    
+    // Initialize an empty array to store the flattened key
+    $keyArray = [];
+    
+    // Convert the key string into a single-dimensional array
+    for ($i = 0; $i < 4; $i++) {
+        for ($j = 0; $j < 4; $j++) {
+            // Convert each pair of characters into a byte represented as hexadecimal
+            $byteHex = substr($keyString, $i * 8 + $j * 2, 2);
+            $keyArray[] = hexdec($byteHex); // Convert hexadecimal to decimal
+        }
+    }
+    
+    return $keyArray;
+}
+
+/*function addRoundKey(&$state, $w, $round) {
+    for ($i = 0; $i < 4; $i++) {
+        for ($j = 0; $j < 4; $j++) {
+            $state[$j][$i] ^= $w[$round * 4 + $i][$j];
+        }
+    }
+}*/
+function multiDimensionalArraySlice($array, $offset, $length = null) {
+    if ($length === null) {
+        $length = count($array) - $offset;
+    }
+
+    $result = array();
+    foreach ($array as $element) {
+        if (is_array($element)) {
+            $result[] = multiDimensionalArraySlice($element, $offset, $length);
+        } else {
+            $result[] = $element;
+        }
+    }
+    return array_slice($result, $offset, $length);
+}
+
+function addRoundKey($state, $roundKey) {
+    /**
+     * Add Round Key operation for AES encryption.
+     *
+     * Parameters:
+     * $state (array): The state array (4x4) represented as a 2D array.
+     * $roundKey (array): The round key (4x4) represented as a 2D array.
+     *
+     * Returns:
+     * array: The resulting state array after adding round key.
+     */
+    $result = array();
+    foreach ($state as $s) {
+        $temp = array();
+        for ($i = 0; $i < 4; $i++) {
+            for ($j = 0; $j < 4; $j++) {
+                // XOR each byte of the state with the corresponding byte of the round key
+                $temp[$i][$j] = $s[$i][$j] ^ $roundKey[$i][$j];
+            }
+        }
+        $result[] = $temp;
+    }
+    return $result;
+}
+
+
+
+//Main AES Encryption function
+
+function aes_encrypt($plaintext, $key){
+    global $sbox, $round_constants;
+    $array_key = keyStringToMatrix($key);
+    $array_plaintext = plaintextToMatrix($plaintext);
+    $w = key_expansion($array_key, $sbox, $round_constants);
+    $state = [];
+    // Initialize state
+    for ($i = 0; $i < 4; $i++) {
+        $state[$i] = array_slice($array_plaintext, $i * 4, 4);
+    }
+    $slicedArray = multiDimensionalArraySlice($state, 1, 2);
+    $initial_round_key = array_slice($w, 0, 4);
+    addRoundKey($slicedArray, $initial_round_key);
+    return $state;
+}
+
+
+
+$plaintext = "00112233445566778899aabbccddeeff";
+$key = "8b1a9953c4611296a827abf8c47804d7";
+
+
+// $key = [
+//     0x8B, 0x1A, 0x99, 0x53,
+//     0xC4, 0x61, 0x12, 0x96,
+//     0xA8, 0x27, 0xAB, 0xF8,
+//     0xC4, 0x78, 0x04, 0xD7
+// ];
+
+//$array_key = keyStringToMatrix($key);
+//$array_plaintext = plaintextToMatrix($plaintext);
+//$key_exp = key_expansion($array_key, $sbox, $round_constants);
+
+$res = aes_encrypt($plaintext, $key);
+
+print_r($res);
+//print_r($key_exp);
+
+
+
+?>
