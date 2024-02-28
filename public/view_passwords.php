@@ -8,6 +8,8 @@ if(!isset($_SESSION['email'])){
 $documentRoot = $_SERVER['DOCUMENT_ROOT'];
 require($documentRoot.'/config/database.php');
 require($documentRoot.'/src/Controller/aes.php');
+require($documentRoot.'/src/Controller/enc.php');
+require($documentRoot.'/src/Model/PasswordModel.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,6 +38,8 @@ require($documentRoot.'/src/Controller/aes.php');
         $stmt->close();
 
         $category = ["Social", "Banking", "Gmail", "Others"];
+        $password_set = 4;
+        $password_model = new PasswordModel($conn);
 
         for($i=0; $i<count($category); $i++){
         $stmt = $conn->prepare("SELECT application_name, app_user_id, password, security_question, security_answer, twofa_info, created_at FROM passwords WHERE user_id = ? AND category=?");
@@ -62,7 +66,10 @@ require($documentRoot.'/src/Controller/aes.php');
                 echo '<td class="name_row">'.$row['application_name'].'</td>';
                 echo '<td>'.$row['app_user_id'].'</td>';
                 echo '<td>';
-                //password dekhaune logic
+                $key = $_SESSION['token'];
+                $decrypted_key = decrypt($key);
+                $password = decryptAES($row['password'], $decrypted_key);
+                echo $password;
                 echo '</td>';
                 echo '<td>';
                 if($row['security_question'] !== null){
@@ -79,27 +86,34 @@ require($documentRoot.'/src/Controller/aes.php');
                 }
                 echo '</td>';
                 echo '<td>'.$row['created_at'].'</td>';
-                echo '<td><button class="edit_btn" type="button" onclick="redirectTo(\'edit\')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo(\'delete\')">Delete</button></td>';
+                //echo '<td><button class="edit_btn" type="button" onclick="redirectTo(\'edit\')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo(\'delete\')">Delete</button></td>';
+                echo '<td><a class="edit_btn" href="edit_password.php">Edit</a>';
+                echo '<a class="delete_btn" href="delete_password.php?id='.$password_model->get_password_id($row['password']).'" onclick="return confirm(\'Are your sure you want to delete\')">Delete</a></td>';
                 echo '</tr>';
             }
             echo "</tbody>";
             echo "</table>";
+        }else{
+            $password_set--;
+        } 
+        $stmt->close();
         }
-        $stmt->close(); 
-    }
-        ?>
+        if($password_set === 0){
+            echo '<h3 class="no_passwords">No passwords to show.</h3>';
+        }
+    ?>
     </div>
-    <script>
+    <!-- <script>
         function redirectTo(page){
             if(page === 'edit'){
                 window.location.href = "edit_password.php";
             }else{
                 let confirm = window.confirm("Are you sure you want to delete?");
                 if(confirm){
-                    window.location.href = "delete_password.php";
+                    window.location.href = "delete_password.php?password=";
                 }
             }
         }
-    </script>
+    </script> -->
 </body>
 </html>

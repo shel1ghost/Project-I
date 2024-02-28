@@ -1,6 +1,7 @@
 <?php
 $documentRoot = $_SERVER['DOCUMENT_ROOT']; 
 require($documentRoot.'/config/database.php');
+require($documentRoot.'/src/Controller/enc.php');
 
 session_start();
 if(!isset($_SESSION['email'])){
@@ -23,6 +24,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $stmt->close();
         if(password_verify($password, $db_hashed_password)){
             $key = md5($password);
+            $secure_key = encrypt($key);
+            $_SESSION['token'] = $secure_key; //passing users encrypted password through session as 'token'
             $_SESSION['authorized_user'] = true;
             header('Location: view_passwords.php');
         }else{

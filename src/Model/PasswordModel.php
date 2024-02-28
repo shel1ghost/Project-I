@@ -28,6 +28,18 @@ class PasswordModel {
         return $passwords;
     }
 
+    public function get_password_id($password){
+        $sql = "SELECT password_id FROM passwords WHERE password=?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $password);
+        $stmt->execute();
+        $stmt->bind_result($password_id);
+        $stmt->fetch();
+        $stmt->close();
+
+        return $password_id; 
+    }
+
     public function deletePassword($password_id) {
         $sql = "DELETE FROM passwords WHERE password_id=?";
         $stmt = $this->conn->prepare($sql);
