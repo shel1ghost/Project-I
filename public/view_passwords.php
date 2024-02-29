@@ -9,6 +9,14 @@ $documentRoot = $_SERVER['DOCUMENT_ROOT'];
 require($documentRoot.'/config/database.php');
 require($documentRoot.'/src/Controller/aes.php');
 require($documentRoot.'/src/Controller/enc.php');
+$email = $_SESSION['email'];
+$stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->bind_result($user_id);
+$stmt->fetch();
+$stmt->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,15 +34,20 @@ require($documentRoot.'/src/Controller/enc.php');
         </div>
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
+    <a href="export_passwords.php?id=<?php echo $user_id;?>" class="export_passwords">
+        <span>Export</span>
+    </a>
+    <img src="./images/download-solid.svg" class="export_logo">
+    
     <div class="main">
         <?php
-        $email = $_SESSION['email'];
-        $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->bind_result($user_id);
-        $stmt->fetch();
-        $stmt->close();
+        // $email = $_SESSION['email'];
+        // $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
+        // $stmt->bind_param("s", $email);
+        // $stmt->execute();
+        // $stmt->bind_result($user_id);
+        // $stmt->fetch();
+        // $stmt->close();
 
         $category = ["Social", "Banking", "Gmail", "Others"];
         $password_set = 4;
