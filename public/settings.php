@@ -66,7 +66,7 @@ if(!isset($_SESSION['email'])){
     <script>
         function redirectTo(page){
             if(page === 'delete'){
-                window.location.href = "delete.php";
+                window.location.href = "delete_user.php";
             }else{
                 window.location.href = "dashboard.php";
             }

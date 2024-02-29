@@ -4,7 +4,42 @@ if(!isset($_SESSION['email'])){
     header('Location: login.php');
 } 
 $documentRoot = $_SERVER['DOCUMENT_ROOT']; 
-require($documentRoot.'/src/Controller/add_pass_validator.php'); 
+require($documentRoot.'/config/database.php');
+require($documentRoot.'/src/Controller/enc.php');
+require($documentRoot.'/src/Controller/aes.php');
+require($documentRoot.'/src/Model/PasswordModel.php');
+
+
+$password_id = $_GET['id'];
+$stmt = $conn->prepare("SELECT * FROM passwords WHERE password_id=?");
+$stmt->bind_param("i", $password_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    require($documentRoot.'/src/Controller/add_pass_validator.php');
+    if(!$error){
+        $email = $_SESSION['email'];
+        $stmt = $conn->prepare("SELECT password FROM users WHERE email=?;");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($db_hashed_password);
+        $stmt->fetch();
+        $stmt->close();
+        if(password_verify($ciphershield_pass, $db_hashed_password)){
+            $security_qn = isset($securityQuestion)?$securityQuestion:null;
+            $security_ans = isset($securityAnswer)?$securityAnswer:null;
+            $two_factor_info = isset($twoFactorInfo)?$twoFactorInfo:null;
+            $encrypted_password = encryptAES($password, md5($ciphershield_pass));
+            $add_password = new PasswordModel($conn);
+            $add_password->updatePassword($password_id, $appName, $app_userID, $encrypted_password, $category, $security_qn, $security_ans, $two_factor_info);
+            header("Location: view_passwords.php");
+        }else{
+            $error_add_pass = "Incorrect ciphershield password.";
+        }
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,20 +57,27 @@ require($documentRoot.'/src/Controller/add_pass_validator.php');
         </div>
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
-    <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <p class="error_add_pass"><?php echo isset($error_add_pass)?$error_add_pass:'';?></p>
+    <p class="success_add_pass"><?php echo isset($success_add_pass)?$success_add_pass:'';?></p>
+    <form method="POST" action="<?php echo $_SERVER['SELF'].'?id='.$password_id; ?>">
     <div class="column">
         <label for="appName">Application Name:</label>
-        <input type="text" id="appName" name="appName" value="<?php echo $appName;?>">
+        <input type="text" id="appName" name="appName" value="<?php echo $row['application_name'];?>">
         <span class="error_msg"><?php echo isset($err_appName) ? $err_appName:''; ?></span>
         <br/><br/>
 
         <label for="userID">UserID:</label>
-        <input type="text" id="userID" name="userID" value="<?php echo $userID;?>">
+        <input type="text" id="userID" name="userID" value="<?php echo $row['app_user_id'];?>">
         <span class="error_msg"><?php echo isset($err_userID) ? $err_userID:''; ?></span>
         <br/><br/>
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password" value="<?php 
+        $key = $_SESSION['token'];
+        $decrypted_key = decrypt($key);
+        $password = decryptAES($row['password'], $decrypted_key);
+        echo $password;
+        ?>">
         <span class="error_msg"><?php echo isset($err_password) ? $err_password:''; ?></span>
         <br/><br/>
 
@@ -49,34 +91,30 @@ require($documentRoot.'/src/Controller/add_pass_validator.php');
         <div class="column">
         <label for="category">Category:</label>
         <select id="category" name="category">
-            <option value="social" <?php if ($category === "social") echo "selected"; ?>>Social</option>
-            <option value="banking" <?php if ($category === "banking") echo "selected"; ?>>Banking</option>
-            <option value="email" <?php if ($category === "email") echo "selected"; ?>>Email</option>
-            <option value="others" <?php if ($category === "others") echo "selected"; ?>>Others</option>
+            <option value="social" <?php if ($row['category'] === "social") echo "selected"; ?>>Social</option>
+            <option value="banking" <?php if ($row['category'] === "banking") echo "selected"; ?>>Banking</option>
+            <option value="email" <?php if ($row['category'] === "email") echo "selected"; ?>>Email</option>
+            <option value="others" <?php if ($row['category'] === "others") echo "selected"; ?>>Others</option>
         </select>
         <span class="error_msg"><?php echo isset($err_category) ? $err_category:''; ?></span>
         <br/><br/>
 
         <label for="securityQuestion">Security QN/A (if any):</label>
-        <input type="text" id="securityQuestion" name="securityQuestion" placeholder="Security question..." value="<?php echo $securityQuestion;?>">
+        <input type="text" id="securityQuestion" name="securityQuestion" placeholder="Security question..." value="<?php echo ($row['security_question'] !== null)?$row['security_question']:''; ?>">
         <br/><br/>
-        <input type="text" id="securityAnswer" name="securityAnswer" placeholder="Answer..." value="<?php echo $securityAnswer;?>">
+        <input type="text" id="securityAnswer" name="securityAnswer" placeholder="Answer..." value="<?php echo ($row['security_answer'] !== null)?$row['security_answer']:''; ?>">
         <br/><br/>
-        <!-- <div class="checkbox_container">
-            <input type="checkbox" id="twofa_checkbox" name="twofa_checkbox">
-            <label for="twofa_checkbox" class="twofa_label">2FA Information:</label>
-        </div> -->
 
         <div class="flex-container">
-            <input type="checkbox" name="twofa_checkbox" id="twofa_checkbox" <?php echo $twofa_checkbox; ?>>
+            <input type="checkbox" name="twofa_checkbox" id="twofa_checkbox" <?php echo ($row['twofa_info'] !== null)?'checked':''; ?>>
             <label for="twofa_checkbox">Add 2FA Information</label>
         </div>
 
-        <textarea id="twoFactorInfo" name="twoFactorInfo" rows="1" class="hidden" value="<?php echo htmlspecialchars($twoFactorInfo);?>"></textarea>
+        <textarea id="twoFactorInfo" name="twoFactorInfo" rows="1" class="<?php echo ($row['twofa_info'] !== null)?'':'hidden';?>"><?php echo ($row['twofa_info'] !== null)?$row['twofa_info']:'ndgndgdn'; ?></textarea>
         <span class="error_msg"><?php echo isset($err_twoFactorInfo) ? $err_twoFactorInfo:''; ?></span>
         <br/><br/>
         </div>
-        <button class="add_password_btn" type="submit">Add Password</button>
+        <button class="add_password_btn" type="submit">Update Password</button>
         <button class="cancel_btn" type="button" onclick="redirectToDashboard()">Cancel</button>
     </form>
     <script>

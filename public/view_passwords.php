@@ -9,7 +9,6 @@ $documentRoot = $_SERVER['DOCUMENT_ROOT'];
 require($documentRoot.'/config/database.php');
 require($documentRoot.'/src/Controller/aes.php');
 require($documentRoot.'/src/Controller/enc.php');
-require($documentRoot.'/src/Model/PasswordModel.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,10 +38,10 @@ require($documentRoot.'/src/Model/PasswordModel.php');
 
         $category = ["Social", "Banking", "Gmail", "Others"];
         $password_set = 4;
-        $password_model = new PasswordModel($conn);
+        //$password_model = new PasswordModel($conn);
 
         for($i=0; $i<count($category); $i++){
-        $stmt = $conn->prepare("SELECT application_name, app_user_id, password, security_question, security_answer, twofa_info, created_at FROM passwords WHERE user_id = ? AND category=?");
+        $stmt = $conn->prepare("SELECT * FROM passwords WHERE user_id = ? AND category=?");
         $stmt->bind_param("is", $user_id, $category[$i]);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -56,7 +55,7 @@ require($documentRoot.'/src/Model/PasswordModel.php');
             <th class='password_heading'>Password</th>
             <th class='sec_qna'>Security QN/A</th>
             <th class='twofa'>2FA Info</th>
-            <th class='created_at'>Created At</th>
+            <th class='created_at'>Modified</th>
             <th class='actions_heading'>Actions</th>
             </tr>";
             echo "</thead>";
@@ -86,9 +85,8 @@ require($documentRoot.'/src/Model/PasswordModel.php');
                 }
                 echo '</td>';
                 echo '<td>'.$row['created_at'].'</td>';
-                //echo '<td><button class="edit_btn" type="button" onclick="redirectTo(\'edit\')">Edit</button><button class="delete_btn" type="button" onclick="redirectTo(\'delete\')">Delete</button></td>';
-                echo '<td><a class="edit_btn" href="edit_password.php">Edit</a>';
-                echo '<a class="delete_btn" href="delete_password.php?id='.$password_model->get_password_id($row['password']).'" onclick="return confirm(\'Are your sure you want to delete\')">Delete</a></td>';
+                echo '<td><a class="edit_btn" href="edit_password.php?id='.$row['password_id'].'">Edit</a>';
+                echo '<a class="delete_btn" href="delete_password.php?id='.$row['password_id'].'" onclick="return confirm(\'Are your sure you want to delete\')">Delete</a></td>';
                 echo '</tr>';
             }
             echo "</tbody>";
@@ -103,17 +101,5 @@ require($documentRoot.'/src/Model/PasswordModel.php');
         }
     ?>
     </div>
-    <!-- <script>
-        function redirectTo(page){
-            if(page === 'edit'){
-                window.location.href = "edit_password.php";
-            }else{
-                let confirm = window.confirm("Are you sure you want to delete?");
-                if(confirm){
-                    window.location.href = "delete_password.php?password=";
-                }
-            }
-        }
-    </script> -->
 </body>
 </html>

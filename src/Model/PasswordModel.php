@@ -8,10 +8,21 @@ class PasswordModel {
     }
 
     public function createPassword($user_id, $application_name, $app_userID, $password, $category, $security_question = null, $security_answer = null, $two_factor_info = null) {
-        $sql = "INSERT INTO passwords (user_id, application_name, app_user_id, password, category, security_question, security_answer, twofa_info) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        date_default_timezone_set('Asia/Kathmandu');
+        $created_at = date("Y-m-d H:i:s");
+        $sql = "INSERT INTO passwords (user_id, application_name, app_user_id, password, category, security_question, security_answer, twofa_info, created_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("isssssss", $user_id, $application_name, $app_userID, $password, $category, $security_question, $security_answer, $two_factor_info);
+        $stmt->bind_param("issssssss", $user_id, $application_name, $app_userID, $password, $category, $security_question, $security_answer, $two_factor_info, $created_at);
+        return $stmt->execute();
+    }
+
+    public function updatePassword($password_id, $application_name, $app_userID, $password, $category, $security_question = null, $security_answer = null, $two_factor_info = null) {
+        date_default_timezone_set('Asia/Kathmandu');
+        $created_at = date("Y-m-d H:i:s");
+        $sql = "UPDATE passwords SET application_name=?, app_user_id=?, password=?, category=?, security_question=?, security_answer=?, twofa_info=?, created_at=? WHERE password_id=?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ssssssssi", $application_name, $app_userID, $password, $category, $security_question, $security_answer, $two_factor_info, $created_at, $password_id);
         return $stmt->execute();
     }
 
@@ -28,18 +39,6 @@ class PasswordModel {
         return $passwords;
     }
 
-    public function get_password_id($password){
-        $sql = "SELECT password_id FROM passwords WHERE password=?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("s", $password);
-        $stmt->execute();
-        $stmt->bind_result($password_id);
-        $stmt->fetch();
-        $stmt->close();
-
-        return $password_id; 
-    }
-
     public function deletePassword($password_id) {
         $sql = "DELETE FROM passwords WHERE password_id=?";
         $stmt = $this->conn->prepare($sql);
@@ -47,13 +46,5 @@ class PasswordModel {
         return $stmt->execute();
     }
 }
-
-
-// $passwordModel = new Password($conn);
-// $passwordModel->createPassword($user_id, $title, $password, $two_factor_info, $security_question, $security_answer, $category);
-// $passwords = $passwordModel->getPasswordsByUserId($user_id);
-// foreach ($passwords as $password) {
-//     // Process each password
-// }
 
 ?>

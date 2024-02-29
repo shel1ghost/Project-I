@@ -1,4 +1,8 @@
 <?php
+session_start();
+if(isset($_SESSION['email'])){
+    header("Location: dashboard.php");
+}
 $documentRoot = $_SERVER['DOCUMENT_ROOT'];
 require($documentRoot.'/config/database.php'); 
 require($documentRoot.'/src/Model/UserModel.php'); 
@@ -25,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user_model = new UserModel($conn);
         $user = $user_model->authenticate($email, $password);
         if($user){
-            session_start();
+            // session_start();
             $_SESSION['email'] = $email;
             $_SESSION['name'] = $user_model->getUserName($email);
             header("Location: dashboard.php");
