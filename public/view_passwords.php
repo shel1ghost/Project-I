@@ -111,6 +111,10 @@ $stmt->close();
         }
         if($password_set === 0){
             echo '<h3 class="no_passwords">No passwords to show.</h3>';
+            echo '<script>
+            document.getElementsByClassName("export_passwords")[0].style.display = "none";
+            document.getElementsByClassName("export_logo")[0].style.display = "none";
+            </script>';
         }
     ?>
     </div>
