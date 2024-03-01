@@ -3,6 +3,32 @@ session_start();
 if(!isset($_SESSION['email'])){
     header('Location: login.php');
 }
+$documentRoot = $_SERVER['DOCUMENT_ROOT']; 
+require($documentRoot.'/config/database.php');
+require($documentRoot.'/src/Model/UserModel.php'); 
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if(isset($_POST['password']) && empty(trim($_POST['password']))){
+        $err_password = "Please enter password.";
+    }else{
+        $password = $_POST['password'];
+        $email = $_SESSION['email'];
+        $stmt = $conn->prepare("SELECT password FROM users WHERE email=?;");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($db_hashed_password);
+        $stmt->fetch();
+        $stmt->close();
+        if(password_verify($password, $db_hashed_password)){
+            $user_model = new UserModel($conn);
+            $user_model->deleteUser($email);
+            session_destroy();
+            header("Location: login.php");
+        }else{
+            $err_password = "Incorrect Password.";
+        }
+    }
+}
 ?>
 <DOCTYPE html>
 <html lang="en">
@@ -44,7 +70,9 @@ if(!isset($_SESSION['email'])){
             <div>
                 <label for="delete_password">Enter your password to continue:</label>
                 <br/>
-                <input type="password" id="delete_password" name="delete_password">
+                <input type="password" id="password" name="password" value="<?php echo isset($password)?$password:''; ?>">
+                <br/>
+                <span class="error_msg"><?php echo isset($err_password)?$err_password:'';?></span>
             </div>
             <button class="cancel_btn" type="button" onclick="redirectToDashboard()">Cancel</button>
             <button class="delete_btn" type="submit">Delete</button>

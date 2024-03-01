@@ -94,6 +94,7 @@ input {
     cursor: pointer;
     width: 140px;
     padding: 10px;
+    margin-top: 8px;
 }
 
 .cancel_btn:hover {
@@ -110,8 +111,13 @@ input {
     cursor: pointer;
     width: 140px;
     margin-left: 6px;
+    margin-top: 8px;
 }
 
 .delete_btn:hover {
     background-color: rgb(218, 43, 20);
+}
+
+.error_msg {
+    color: red;
 }

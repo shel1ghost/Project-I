@@ -18,6 +18,12 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
+if($result->num_rows === 0){
+    echo '<script>
+    alert("You have no passwords to export.");
+    window.location.href = "view_pass_menu.php?category=social";
+    </script>';
+}else{
 // Create an array to store passwords
 $passwords = array();
 while ($row = $result->fetch_assoc()) {
@@ -42,5 +48,6 @@ header('Content-Disposition: attachment; filename="ciphershield_passwords.json"'
 
 // Output JSON to the browser
 echo $json;
+}
 
 ?>

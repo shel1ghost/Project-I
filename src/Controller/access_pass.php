@@ -7,7 +7,8 @@ session_start();
 if(!isset($_SESSION['email'])){
     header('Location: login.php');
 }else if($_SESSION['authorized_user']){
-    header('Location: view_passwords.php');
+    $redirectURL = "view_pass_menu.php?category=social";
+    header('Location: '.$redirectURL);
 }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -27,7 +28,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $secure_key = encrypt($key);
             $_SESSION['token'] = $secure_key; //passing users encrypted password through session as 'token'
             $_SESSION['authorized_user'] = true;
-            header('Location: view_passwords.php');
+            $redirectURL = "view_pass_menu.php?category=social";
+            header('Location: '.$redirectURL);
         }else{
             $err_password = "Incorrect password. Try again!";
         }

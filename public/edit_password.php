@@ -33,7 +33,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $encrypted_password = encryptAES($password, md5($ciphershield_pass));
             $add_password = new PasswordModel($conn);
             $add_password->updatePassword($password_id, $appName, $app_userID, $encrypted_password, $category, $security_qn, $security_ans, $two_factor_info);
-            header("Location: view_passwords.php");
+            $redirectURL = 'view_pass_menu.php?category='.$category;
+            header('Location: '.$redirectURL);
         }else{
             $error_add_pass = "Incorrect ciphershield password.";
         }
