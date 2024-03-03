@@ -1,0 +1,101 @@
+function fetch_social_pass() {
+    document.getElementsByClassName('social')[0].style.backgroundColor = "#0099ff";
+    document.getElementsByClassName('social')[0].style.color = "white";
+    document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
+    document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
+    document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+    fetch('social_passwords.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById('content').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+function fetch_banking_pass() {
+    document.getElementsByClassName('banking')[0].style.backgroundColor = "#0099ff";
+    document.getElementsByClassName('banking')[0].style.color = "white";
+    document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
+    document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
+    document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+    fetch('banking_passwords.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById('content').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+function fetch_email_pass() {
+    document.getElementsByClassName('email')[0].style.backgroundColor = "#0099ff";
+    document.getElementsByClassName('email')[0].style.color = "white";
+    document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
+    document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
+    document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+    fetch('email_passwords.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById('content').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+function fetch_others_pass() {
+    document.getElementsByClassName('others')[0].style.backgroundColor = "#0099ff";
+    document.getElementsByClassName('others')[0].style.color = "white";
+    document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
+    document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
+    document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
+    fetch('others_passwords.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById('content').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+
+window.onload = function () {
+var url = window.location.href;
+
+// Create a new URLSearchParams object with the URL's query string
+var params = new URLSearchParams(url.split('?')[1]);
+
+// Get the value of a specific query parameter
+var category = params.get('category');
+
+// Check if the parameter exists
+if (category === "social") {
+    fetch_social_pass();
+}else if(category === "banking"){
+    fetch_banking_pass();
+}else if(category === "email"){
+    fetch_email_pass();
+}else if(category === "others"){
+    fetch_others_pass();
+}
+}

@@ -111,7 +111,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             <label for="twofa_checkbox">Add 2FA Information</label>
         </div>
 
-        <textarea id="twoFactorInfo" name="twoFactorInfo" rows="1" class="<?php echo ($row['twofa_info'] !== null)?'':'hidden';?>"><?php echo ($row['twofa_info'] !== null)?$row['twofa_info']:'ndgndgdn'; ?></textarea>
+        <textarea id="twoFactorInfo" name="twoFactorInfo" rows="1" class="<?php echo ($row['twofa_info'] !== null)?'':'hidden';?>"><?php echo ($row['twofa_info'] !== null)?$row['twofa_info']:''; ?></textarea>
         <span class="error_msg"><?php echo isset($err_twoFactorInfo) ? $err_twoFactorInfo:''; ?></span>
         <br/><br/>
         </div>
