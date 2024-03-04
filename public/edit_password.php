@@ -116,7 +116,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <br/><br/>
         </div>
         <button class="add_password_btn" type="submit">Update Password</button>
-        <button class="cancel_btn" type="button" onclick="redirectToDashboard()">Cancel</button>
+        <button class="cancel_btn" type="button" onclick="redirectBack()">Cancel</button>
     </form>
     <script>
         const checkbox = document.getElementById('twofa_checkbox');
@@ -129,8 +129,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
              textArea.classList.add('hidden');
         }
         });
-        function redirectToDashboard() {
-            window.location.href = "dashboard.php";
+        function redirectBack() {
+            let category = document.getElementById("category").value;
+            window.location.href = "view_pass_menu.php?category="+category;
         }
     </script>
 </body>
