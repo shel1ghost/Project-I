@@ -107,13 +107,6 @@ function keyStringToMatrix($keyString) {
     return $keyArray;
 }
 
-/*function addRoundKey(&$state, $w, $round) {
-    for ($i = 0; $i < 4; $i++) {
-        for ($j = 0; $j < 4; $j++) {
-            $state[$j][$i] ^= $w[$round * 4 + $i][$j];
-        }
-    }
-}*/
 function multiDimensionalArraySlice($array, $offset, $length = null) {
     if ($length === null) {
         $length = count($array) - $offset;
@@ -130,30 +123,174 @@ function multiDimensionalArraySlice($array, $offset, $length = null) {
     return array_slice($result, $offset, $length);
 }
 
-function addRoundKey($state, $roundKey) {
-    /**
-     * Add Round Key operation for AES encryption.
-     *
-     * Parameters:
-     * $state (array): The state array (4x4) represented as a 2D array.
-     * $roundKey (array): The round key (4x4) represented as a 2D array.
-     *
-     * Returns:
-     * array: The resulting state array after adding round key.
-     */
+
+function add_round_key($state, $roundKey) {
+    //$stateSize = count($state);
+    //$roundKeySize = count($roundKey);
+
+    // Check if the state and round key sizes match
+    // if ($stateSize != $roundKeySize) {
+    //     throw new Exception("State and Round Key sizes do not match.");
+    // }
+
+    // XOR each byte of the state with the corresponding byte of the round key
     $result = array();
-    foreach ($state as $s) {
-        $temp = array();
-        for ($i = 0; $i < 4; $i++) {
-            for ($j = 0; $j < 4; $j++) {
-                // XOR each byte of the state with the corresponding byte of the round key
-                $temp[$i][$j] = $s[$i][$j] ^ $roundKey[$i][$j];
-            }
-        }
-        $result[] = $temp;
+    for ($i = 0; $i < 16; $i++) {
+        $result[$i] = $state[$i] ^ $roundKey[$i];
     }
+
     return $result;
 }
+
+function subBytes(array $state, $sBox) {
+    // Substitute each byte of state with the corresponding byte from the S-box
+    $result = array();
+    for ($i = 0; $i < 16; $i++) {
+        $result[$i] = $sBox[$state[$i]];
+    }
+
+    return $result;
+}
+
+function shiftRows($state) {
+    $rows = 4; // AES operates on 4x4 matrices
+
+    // Perform row shifts
+    for ($row = 0; $row < $rows; $row++) {
+        $state = shiftRow($state, $row);
+    }
+
+    return $state;
+}
+
+// Helper function to shift a single row
+function shiftRow($state, $row) {
+    $columns = 4;
+    $rowStartIndex = $row * $columns;
+
+    // Perform circular left shift on the row
+    switch ($row) {
+        case 1:
+            $state = circularLeftShift($state, $rowStartIndex, 1);
+            break;
+        case 2:
+            $state = circularLeftShift($state, $rowStartIndex, 2);
+            break;
+        case 3:
+            $state = circularLeftShift($state, $rowStartIndex, 3);
+            break;
+        default:
+            // No shift for the first row
+            break;
+    }
+
+    return $state;
+}
+
+// Helper function for circular left shift
+function circularLeftShift($state, $startIndex, $shifts) {
+    $temp = array_slice($state, $startIndex, $shifts);
+    $state = array_merge(array_slice($state, 0, $startIndex), array_slice($state, $startIndex + $shifts));
+    $state = array_merge($state, $temp);
+    return $state;
+}
+
+
+
+// Function to multiply the first matrix's columns with the second matrix and store the result in the first matrix
+function mix_columns($firstMatrix) {
+    $secondMatrix = [
+        1, 2, 3, 4,
+        5, 1, 2, 1,
+        3, 2, 1, 3,
+        6, 1, 2, 3
+    ];
+    // Check if the matrices have the same dimensions
+    $rows = 4;
+    $columns = 4;
+
+
+    $result = array_fill(0, $rows * $columns, 0);
+
+    // Iterate over each column of the first matrix
+    for ($col = 0; $col < $columns; $col++) {
+        // Iterate over each row of the first matrix
+        for ($row = 0; $row < $rows; $row++) {
+            $sum = 0;
+
+            // Multiply each element of the current column of the first matrix with the corresponding element of the second matrix
+            for ($i = 0; $i < $rows; $i++) {
+                $sum += $firstMatrix[$i * $columns + $col] * $secondMatrix[$row * $columns + $i];
+            }
+
+            // Store the sum in the result matrix
+            $result[$row * $columns + $col] = $sum;
+        }
+    }
+
+    return $result;
+}
+
+
+
+function encryptAESFromArray(array $plaintext, array $key, $sBox, $roundConstants) {
+    $roundKeys = key_expansion($key, $sBox, $roundConstants);
+    $single_array_round_keys = convertArrayToDecimalArray($roundKeys);
+
+    // AES encryption process
+    // Initial round
+    $state = $plaintext;
+    $state = add_round_key($state, $key);
+
+    //array slice for round key
+    $start = 0;
+    $end = 16;
+
+    // //Main rounds
+    //$round < count($roundKeys) -1;
+    for ($round = 0; $round < 9; $round++) {
+        $state = subBytes($state, $sBox);
+        $state = shiftRows($state);
+        $state = mix_columns($state);
+        $state = add_round_key($state, array_slice($single_array_round_keys, $start, $end, false));
+        $start+=16;
+    }
+
+    // // Final round (no mix columns)
+    $state = subBytes($state, $sBox);
+    $state = shiftRows($state);
+    $state = add_round_key($state, array_slice($single_array_round_keys, 160, 175));
+
+    //return $roundKeys;
+    //return array_slice($single_array_round_keys, 32, 16, false);
+    //return $single_array_round_keys;
+    return $state;
+}
+
+function convertHexArrayToDecimalArray($hexArray) {
+    $decimalArray = array();
+
+    foreach ($hexArray as $subArray) {
+        foreach ($subArray as $hex) {
+            $decimalArray[] = hexdec($hex);
+        }
+    }
+
+    return $decimalArray;
+}
+
+function convertArrayToDecimalArray($Array) {
+    $decimalArray = array();
+
+    foreach ($Array as $subArray) {
+        foreach ($subArray as $arr) {
+            $decimalArray[] = $arr;
+        }
+    }
+
+    return $decimalArray;
+}
+
 
 
 
@@ -169,15 +306,30 @@ function aes_encrypt($plaintext, $key){
     for ($i = 0; $i < 4; $i++) {
         $state[$i] = array_slice($array_plaintext, $i * 4, 4);
     }
-    $slicedArray = multiDimensionalArraySlice($state, 1, 2);
-    $initial_round_key = array_slice($w, 0, 4);
-    addRoundKey($slicedArray, $initial_round_key);
-    return $state;
+    // $slicedArray = multiDimensionalArraySlice($state, 1, 2);
+    // $initial_round_key = array_slice($w, 0, 4);
+    // addRoundKey($slicedArray, $initial_round_key);
+    // return $state;
+    $keyArray = str_split(strtoupper($key), 2);
+    $keyMatrix = [];
+    for ($i = 0; $i < 4; $i++) {
+        $keyMatrix[] = array_slice($keyArray, $i * 4, 4);
+    }
+
+    //return $array_key;
+    $keyMatrix = convertHexArrayToDecimalArray($keyMatrix);
+    $array_plaintext = convertArrayToDecimalArray($array_plaintext);
+
+    //return $keyMatrix;
+    //return $array_plaintext;
+
+    return encryptAESFromArray($array_plaintext, $keyMatrix, $sbox, $round_constants);
 }
 
 
 
-$plaintext = "00112233445566778899aabbccddeeff";
+//$plaintext = "00112233445566778899aabbccddeeff";
+$plaintext = "abc@!#1230&*#";
 $key = "8b1a9953c4611296a827abf8c47804d7";
 
 
@@ -195,7 +347,7 @@ $key = "8b1a9953c4611296a827abf8c47804d7";
 $res = aes_encrypt($plaintext, $key);
 
 print_r($res);
-//print_r($key_exp);
+
 
 
 
