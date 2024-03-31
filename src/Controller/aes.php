@@ -18,8 +18,8 @@ function decryptAES($data, $key) {
     return $decrypted;
 }
 
-// $plaintext = "00112233445566778899aabbccddeeff";
-// $key = "000102030405060708090a0b0c0d0e0f";
+ $plaintext = "00112233445566778899aabbccddeeff";
+ $key = "000102030405060708090a0b0c0d0e0f";
 
 // $cipher = encryptAES($plaintext, $key);
 // echo $cipher;

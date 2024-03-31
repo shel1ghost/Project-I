@@ -1,35 +1,35 @@
 <?php
 
 // Encryption function
-function encryptAES($data, $key, $iv) {
-    $cipher = "aes-128-ecb";
+function encryptAES($data, $key) {
+    $cipher = "aes-128-cbc";
     $options = 0;
 
-    $encrypted = openssl_encrypt($data, $cipher, $key, $options, $iv);
+    $encrypted = openssl_encrypt($data, $cipher, $key);
     return $encrypted;
 }
 
 // Decryption function
-function decryptAES($data, $key, $iv) {
-    $cipher = "aes-128-ecb";
+function decryptAES($data, $key) {
+    $cipher = "aes-128-cbc";
     $options = 0;
 
-    $decrypted = openssl_decrypt(($data), $cipher, $key, $options, $iv);
+    $decrypted = openssl_decrypt(($data), $cipher, $key);
     return $decrypted;
 }
 
 // Example usage
-$plaintext = "00112233445566778899aabbccddeeff";
-$key = "000102030405060708090a0b0c0d0e0f"; // 32-byte key for AES-256
+$plaintext = "qwerty@#$12345600!";
+$key = "8b1a9953c4611296a827abf8c47804d7"; // 32-byte key for AES-256
 //$iv = openssl_random_pseudo_bytes(16); // Initialization Vector (IV) should be random
 
-$encryptedText = encryptAES($plaintext, $key, $iv);
-$enc_again = encryptAES($plaintext, $key, $iv);
+$encryptedText = encryptAES($plaintext, $key);
+//$enc_again = encryptAES($plaintext, $key);
 
 echo "\nEncrypted Text: " . $encryptedText . "\n";
-echo $enc_again."\n";
+//echo $enc_again."\n";
 
-$decryptedText = decryptAES($encryptedText, $key, $iv);
+$decryptedText = decryptAES($encryptedText, $key);
 
 echo "Decrypted Text: " . $decryptedText . "\n";
 

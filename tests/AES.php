@@ -22,7 +22,6 @@ $round_constants = [
     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36
 ];
 
-
 function key_expansion($key, $sbox, $round_constants) {
     $w = [];
 
@@ -106,23 +105,6 @@ function keyStringToMatrix($keyString) {
     
     return $keyArray;
 }
-
-function multiDimensionalArraySlice($array, $offset, $length = null) {
-    if ($length === null) {
-        $length = count($array) - $offset;
-    }
-
-    $result = array();
-    foreach ($array as $element) {
-        if (is_array($element)) {
-            $result[] = multiDimensionalArraySlice($element, $offset, $length);
-        } else {
-            $result[] = $element;
-        }
-    }
-    return array_slice($result, $offset, $length);
-}
-
 
 function add_round_key($state, $roundKey) {
     // XOR each byte of the state with the corresponding byte of the round key
@@ -257,7 +239,6 @@ function encryptAESFromArray(array $plaintext, array $key, $sBox, $roundConstant
     $state = subBytes($state, $sBox);
     $state = shiftRows($state);
     $state = add_round_key($state, array_slice($single_array_round_keys, 160, 175));
-    
     return $state;
 }
 
@@ -299,7 +280,7 @@ $plaintext = "qwerty@#$12345600!";
 $key = "8b1a9953c4611296a827abf8c47804d7";
 $res = aes_encrypt($plaintext, $key);
 
-//print_r($res);
+// print_r($res);
 
 function matrixToBase64($matrix) {
     $binaryString = '';

@@ -17,6 +17,14 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
+$stmt->close();
+
+$stmt = $conn->prepare("SELECT key_value FROM password_keys WHERE user_id=?;");
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$stmt->bind_result($key_value);
+$stmt->fetch();
+$stmt->close();
 
 if($result->num_rows === 0){
     echo '<script>
@@ -27,9 +35,9 @@ if($result->num_rows === 0){
 // Create an array to store passwords
 $passwords = array();
 while ($row = $result->fetch_assoc()) {
-    $key = $_SESSION['token'];
-    $decrypted_key = decrypt($key);
-    $password = decryptAES($row['password'], $decrypted_key);
+    //$key = $_SESSION['token'];
+    //$decrypted_key = decrypt($key);
+    $password = decryptAES($row['password'], $key_value);
     $row['password'] = $password;
     unset($row['password_id']);
     unset($row['user_id']);
@@ -37,7 +45,7 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Close the statement
-$stmt->close();
+// $stmt->close();
 
 // Convert passwords array to JSON
 $json = json_encode($passwords, JSON_PRETTY_PRINT);

@@ -24,9 +24,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $stmt->fetch();
         $stmt->close();
         if(password_verify($password, $db_hashed_password)){
-            $key = md5($password);
-            $secure_key = encrypt($key);
-            $_SESSION['token'] = $secure_key; //passing users encrypted password through session as 'token'
+            //$key = md5($password);
+            //$secure_key = encrypt($key);
+            //$_SESSION['token'] = $secure_key; //passing users encrypted password through session as 'token'
             $_SESSION['authorized_user'] = true;
             $redirectURL = "view_pass_menu.php?category=social";
             header('Location: '.$redirectURL);

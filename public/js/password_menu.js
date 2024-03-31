@@ -99,3 +99,15 @@ window.onload = function () {
         fetch_others_pass();
     }
 }
+
+function toggle_password () {
+    let password_box = document.getElementById("password_box");
+    let btn = document.getElementsByClassName('view_pass_btn')[0];
+    if(password_box.type === "password"){
+        password_box.type = "text";
+        btn.innerHTML = "Hide Password";
+    }else if(password_box.type === "text"){
+        password_box.type = "password";
+        btn.innerHTML = "View Password";
+    }
+}

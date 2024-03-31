@@ -21,6 +21,12 @@ class UserModel {
             $stmt->bind_param("sss", $name, $email, $password);
             $stmt->execute();
             $stmt->close();
+            $user_id = $this->getUserId($email);
+            $key_value = md5(rand());
+            $stmt = $this->conn->prepare("INSERT INTO password_keys (user_id, key_value) VALUES (?, ?)");
+            $stmt->bind_param("is", $user_id, $key_value);
+            $stmt->execute();
+            $stmt->close();
             return true;
         }
     }
@@ -48,6 +54,17 @@ class UserModel {
         $stmt->close();
 
         return $username; 
+    }
+
+    public function getUserId($email) {
+        $stmt = $this->conn->prepare("SELECT user_id FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($user_id);
+        $stmt->fetch();
+        $stmt->close();
+
+        return $user_id; 
     }
 
     public function deleteUser($email) {

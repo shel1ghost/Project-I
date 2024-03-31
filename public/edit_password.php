@@ -10,34 +10,42 @@ require($documentRoot.'/src/Controller/aes.php');
 require($documentRoot.'/src/Model/PasswordModel.php');
 
 
+
+
 $password_id = $_GET['id'];
 $stmt = $conn->prepare("SELECT * FROM passwords WHERE password_id=?");
 $stmt->bind_param("i", $password_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
+$stmt->close();
+
+$stmt = $conn->prepare("SELECT key_value FROM password_keys WHERE user_id=?;");
+$stmt->bind_param("i", $row['user_id']);
+$stmt->execute();
+$stmt->bind_result($key_value);
+$stmt->fetch();
+$stmt->close();
+
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     require($documentRoot.'/src/Controller/add_pass_validator.php');
     if(!$error){
-        $email = $_SESSION['email'];
-        $stmt = $conn->prepare("SELECT password FROM users WHERE email=?;");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->bind_result($db_hashed_password);
-        $stmt->fetch();
-        $stmt->close();
-        if(password_verify($ciphershield_pass, $db_hashed_password)){
-            $security_qn = isset($securityQuestion)?$securityQuestion:null;
-            $security_ans = isset($securityAnswer)?$securityAnswer:null;
-            $two_factor_info = isset($twoFactorInfo)?$twoFactorInfo:null;
-            $encrypted_password = encryptAES($password, md5($ciphershield_pass));
-            $add_password = new PasswordModel($conn);
-            $add_password->updatePassword($password_id, $appName, $app_userID, $encrypted_password, $category, $security_qn, $security_ans, $two_factor_info);
-            $redirectURL = 'view_pass_menu.php?category='.$category;
-            header('Location: '.$redirectURL);
-        }else{
-            $error_add_pass = "Incorrect ciphershield password.";
-        }
+        //$email = $_SESSION['email'];
+        // $stmt = $conn->prepare("SELECT password FROM users WHERE email=?;");
+        // $stmt->bind_param("s", $email);
+        // $stmt->execute();
+        // $stmt->bind_result($db_hashed_password);
+        // $stmt->fetch();
+        // $stmt->close();
+        
+        $security_qn = isset($securityQuestion)?$securityQuestion:null;
+        $security_ans = isset($securityAnswer)?$securityAnswer:null;
+        $two_factor_info = isset($twoFactorInfo)?$twoFactorInfo:null;
+        $encrypted_password = encryptAES($password, $key_value);
+        $add_password = new PasswordModel($conn);
+        $add_password->updatePassword($password_id, $appName, $app_userID, $encrypted_password, $category, $security_qn, $security_ans, $two_factor_info);
+        $redirectURL = 'view_pass_menu.php?category='.$category;
+        header('Location: '.$redirectURL);
     }
 }
 
@@ -74,18 +82,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" value="<?php 
-        $key = $_SESSION['token'];
-        $decrypted_key = decrypt($key);
-        $password = decryptAES($row['password'], $decrypted_key);
+        //$key = $_SESSION['token'];
+        //$decrypted_key = decrypt($key);
+        $password = decryptAES($row['password'], $key_value);
         echo $password;
         ?>">
         <span class="error_msg"><?php echo isset($err_password) ? $err_password:''; ?></span>
         <br/><br/>
 
-        <label for="ciphershield_pass">CipherShield Password:</label>
+        <!--<label for="ciphershield_pass">CipherShield Password:</label>
         <input type="password" id="ciphershield_pass" name="ciphershield_pass">
         <span class="error_msg"><?php echo isset($err_ciphershield_pass) ? $err_ciphershield_pass:''; ?></span>
-        <br/><br/>
+        <br/><br/>-->
 
         </div>
 

@@ -8,7 +8,7 @@ if(!isset($_SESSION['email'])){
 }else{
     $password_id = $_GET['id'];
     $category = $_GET['category'];
-    $key = $_SESSION['token'];
+    //$key = $_SESSION['token'];
     $password_model = new PasswordModel($conn);
     $password_model->deletePassword($password_id);
     //header('Location: view_pass_menu.php');

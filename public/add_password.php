@@ -12,23 +12,26 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     require($documentRoot.'/src/Controller/add_pass_validator.php');
     if(!$error){
         $email = $_SESSION['email'];
-        $stmt = $conn->prepare("SELECT user_id, password FROM users WHERE email=?;");
+        $stmt = $conn->prepare("SELECT user_id FROM users WHERE email=?;");
         $stmt->bind_param("s", $email);
         $stmt->execute();
-        $stmt->bind_result($user_id, $db_hashed_password);
+        $stmt->bind_result($user_id);
         $stmt->fetch();
         $stmt->close();
-        if(password_verify($ciphershield_pass, $db_hashed_password)){
-            $security_qn = isset($securityQuestion)?$securityQuestion:null;
-            $security_ans = isset($securityAnswer)?$securityAnswer:null;
-            $two_factor_info = isset($twoFactorInfo)?$twoFactorInfo:null;
-            $encrypted_password = encryptAES($password, md5($ciphershield_pass));
-            $add_password = new PasswordModel($conn);
-            $add_password->createPassword($user_id, $appName, $app_userID, $encrypted_password, $category, $security_qn, $security_ans, $two_factor_info);
-            $success_add_pass = "Password added successfully!";
-        }else{
-            $error_add_pass = "Incorrect ciphershield password.";
-        }
+        $stmt = $conn->prepare("SELECT key_value FROM password_keys WHERE user_id=?;");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $stmt->bind_result($key_value);
+        $stmt->fetch();
+        $stmt->close();
+        $security_qn = isset($securityQuestion)?$securityQuestion:null;
+        $security_ans = isset($securityAnswer)?$securityAnswer:null;
+        $two_factor_info = isset($twoFactorInfo)?$twoFactorInfo:null;
+        $encrypted_password = encryptAES($password, $key_value);
+        $add_password = new PasswordModel($conn);
+        $add_password->createPassword($user_id, $appName, $app_userID, $encrypted_password, $category, $security_qn, $security_ans, $two_factor_info);
+        $success_add_pass = "Password added successfully!";
+        
     }
 }
 
@@ -68,10 +71,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <span class="error_msg"><?php echo isset($err_password) ? $err_password:''; ?></span>
         <br/><br/>
 
-        <label for="ciphershield_pass">CipherShield Password:</label>
+        <!--<label for="ciphershield_pass">CipherShield Password:</label>
         <input type="password" id="ciphershield_pass" name="ciphershield_pass" value="<?php echo isset($ciphershield_pass)?$ciphershield_pass:'';?>">
         <span class="error_msg"><?php echo isset($err_ciphershield_pass) ? $err_ciphershield_pass:''; ?></span>
-        <br/><br/>
+        <br/><br/> --> 
 
         </div>
 

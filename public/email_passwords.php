@@ -12,6 +12,13 @@ $stmt->bind_result($user_id);
 $stmt->fetch();
 $stmt->close();
 
+$stmt = $conn->prepare("SELECT key_value FROM password_keys WHERE user_id = ?");
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$stmt->bind_result($key_value);
+$stmt->fetch();
+$stmt->close();
+
 $category = "Email";
 $stmt = $conn->prepare("SELECT * FROM passwords WHERE user_id = ? AND category=?");
 $stmt->bind_param("is", $user_id, $category);
@@ -38,9 +45,9 @@ if ($result->num_rows > 0) {
         echo '<td class="name_row">'.$row['application_name'].'</td>';
         echo '<td>'.$row['app_user_id'].'</td>';
         echo '<td>';
-        $key = $_SESSION['token'];
-        $decrypted_key = decrypt($key);
-        $password = decryptAES($row['password'], $decrypted_key);
+        //$key = $_SESSION['token'];
+        //$decrypted_key = decrypt($key);
+        $password = decryptAES($row['password'], $key_value);
         echo $password;
         echo '</td>';
         echo '<td>';

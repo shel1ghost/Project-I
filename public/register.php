@@ -8,7 +8,7 @@
     <div class="registration-form">
         <h2>CipherShield Registration</h2>
         <p class="error_msg" style="text-align: center;"><?php echo isset($err_register) ? $err_register:''; ?></p>
-        <form action="<?php echo $_SERVER['SELF']; ?>" method="post">
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" value="<?php echo $name;?>">
