@@ -34,7 +34,7 @@ $stmt->close();
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
     <a href="export_passwords.php?id=<?php echo $user_id;?>" class="export_passwords">
-        <span>Export</span>
+        <span id="export_pass">Export</span>
     </a>
     <img src="./images/download-solid.svg" class="export_logo">
     <div class="menu">

@@ -1,0 +1,78 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: black;
+    color: #ff9900;
+}
+
+header {
+    padding: 15px;
+    overflow: hidden;
+    text-align: center;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+}
+
+.view_enc_process_title {
+    display: inline-block;
+    color: white;
+    text-align: center;
+}
+
+.logo {
+    /* display: inline-block; */
+    width: 64px;
+    height: 64px;
+    background-image: url("../images/logo.png");
+    background-size: cover;
+    border-radius: 50%;
+    float: left;
+}
+
+.logout {
+    float: right;
+}
+
+.logout a {
+    text-decoration: none;
+    color: #ff9900;
+    font-size: 20px;
+    padding: 8px 15px;
+    transition: background-color 0.3s;
+    border-bottom: 1.5px solid #ff9900;
+}
+
+.logout a:hover {
+    background-color: #333;
+}
+
+.main {
+    margin: auto;
+    width: 80%;
+    text-align: center;
+}
+
+.description {
+    font-size: 20px;
+    color: white;
+    text-align: justify;
+}
+
+.first_matrices {
+    display: inline-flex;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 0 20px 0 0;
+    width: 220px;
+    
+}
+
+td {
+    padding: 10px;
+}
+
+

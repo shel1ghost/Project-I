@@ -100,14 +100,18 @@ window.onload = function () {
     }
 }
 
-function toggle_password () {
-    let password_box = document.getElementById("password_box");
-    let btn = document.getElementsByClassName('view_pass_btn')[0];
-    if(password_box.type === "password"){
-        password_box.type = "text";
+function toggle_password (pass_num) {
+    let password_box = document.getElementsByClassName("password_box")[pass_num];
+    let btn = document.getElementsByClassName('view_pass_btn')[pass_num];
+    let btn_value = document.getElementsByClassName('view_pass_btn')[pass_num].innerHTML;
+    let password_label = document.getElementsByClassName('password_label')[pass_num];
+    if(btn_value === "View Password"){
+        password_box.style.display = "inline";
+        password_label.style.display = "inline";
         btn.innerHTML = "Hide Password";
-    }else if(password_box.type === "text"){
-        password_box.type = "password";
+    }else if(btn_value === "Hide Password"){
+        password_box.style.display = "none";
         btn.innerHTML = "View Password";
+        password_label.style.display = "none";
     }
 }

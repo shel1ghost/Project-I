@@ -26,54 +26,46 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
-    // echo '<h3 class="category_heading">'.$category[$i].'</h3>';
-    echo "<table>";
-    echo "<thead>";
-    echo "<tr>
-    <th class='application_name'>Application Name</th>
-    <th class='user_id'>UserID</th>
-    <th class='password_heading'>Password</th>
-    <th class='sec_qna'>Security QN/A</th>
-    <th class='twofa'>2FA Info</th>
-    <th class='created_at'>Modified</th>
-    <th class='actions_heading'>Actions</th>
-    </tr>";
-    echo "</thead>";
-    echo "<tbody>";
+    $pass_num = 0;
     while($row = $result->fetch_assoc()) {
-        echo '<tr>';
-        echo '<td class="name_row">'.$row['application_name'].'</td>';
-        echo '<td>'.$row['app_user_id'].'</td>';
-        echo '<td>';
-        //$key = $_SESSION['token'];
-        //$decrypted_key = decrypt($key);
+        echo '<div class="main">';
+        echo '<div class="column1">';
+        echo '<p><span>Application Name: </span>'.$row['application_name'].'</p>';
+        echo '<br/>';
+        echo '<p><span>User ID: </span>'.$row['app_user_id'].'</p>';
+        echo '<br/>';
         $password = decryptAES($row['password'], $key_value);
-        echo $password;
-        echo '</td>';
-        echo '<td>';
+        echo '<span class="password_label">Password: </span><input class="password_box" type="text" value="'.$password.'" readonly/>';
+        echo '<br/>';
+        echo '<button class="view_pass_btn" onclick="toggle_password('.$pass_num.')">View Password</button>';
+        echo '</div>';
+        echo '<div class="column2">';
+        echo '<p><span>Security QN/A: </span>';
         if($row['security_question'] !== null){
-            echo $row['security_question'].' -> '.$row['security_answer'];
+            echo $row['security_question'].' -> '.$row['security_answer'].'</p>';
         }else{ 
-            echo 'None';
+            echo 'None</p>';
         }
-        echo '</td>';
-        echo '<td>';
+        echo '<br/>';
+        echo '<p><span>2FA Information: </span>';
         if($row['twofa_info'] !== null){
-            echo $row['twofa_info'];
+            echo $row['twofa_info'].'</p>';
         }else{
-            echo 'None';
+            echo 'None</p>';
         }
-        echo '</td>';
-        echo '<td>'.$row['created_at'].'</td>';
-        echo '<td><a class="edit_btn" href="edit_password.php?id='.$row['password_id'].'">Edit</a>';
-        echo '<a class="delete_btn" href="delete_password.php?id='.$row['password_id'].'&category='.$row['category'].'" onclick="return confirm(\'Are your sure you want to delete\')">Delete</a></td>';
-        echo '</tr>';
+        echo '<br/>';
+        echo '<p><span>Modified: </span>'.$row['created_at'].'</p>';
+        echo '</div>';
+        echo '<div class="column3">';
+        echo '<a class="edit_btn" href="edit_password.php?id='.$row['password_id'].'">Edit</a>';
+        echo '<a class="delete_btn" href="delete_password.php?id='.$row['password_id'].'&category='.$row['category'].'" onclick="return confirm(\'Are your sure you want to delete\')">Delete</a>';
+        echo '<a class="view_enc_btn" href="view_encryption_process.php?id='.$row['password_id'].'&category='.$row['category'].'">View Encryption Process</a>';
+        echo '</div>';
+        echo '</div>';
+        $pass_num++;
     }
-    echo "</tbody>";
-    echo "</table>";
 }else{
     echo '<h3 class="no_passwords">No passwords to show.</h3>';
 }
-
 
 ?>
