@@ -130,6 +130,7 @@ form.addEventListener('submit', function(event){
                 }else{
                     document.getElementById('content').innerHTML = data;
                     category = document.getElementsByClassName('hidden_category_info')[0].innerHTML;
+        
                     if (category === "social") {
                         document.getElementsByClassName('social')[0].style.backgroundColor = "#0099ff";
                         document.getElementsByClassName('social')[0].style.color = "white";

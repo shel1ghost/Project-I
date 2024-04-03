@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         echo '<div class="main">';
         echo '<div class="column1">';
-        echo '<p><span>Application Name: </span>'.$row['application_name'].'</p>';
+        echo '<p class="application_name"><span class="password_found_span">Application Name: </span>'.$row['application_name'].'</p>';
         echo '<br/>';
         echo '<p><span>User ID: </span>'.$row['app_user_id'].'</p>';
         echo '<br/>';
