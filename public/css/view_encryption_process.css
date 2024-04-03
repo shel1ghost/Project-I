@@ -50,29 +50,90 @@ header {
 
 .main {
     margin: auto;
-    width: 80%;
+    width: 90%;
     text-align: center;
 }
 
+h2 {
+    color: #0099ff;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-weight: lighter;
+    font-size: 26px;
+    padding: 0;
+    margin: 0;
+}
+
 .description {
+    font-size: 18px;
+    color:#ff9900;
+    text-align: justify;
+}
+
+p {
+    margin: 6px;
     font-size: 20px;
     color: white;
+    width: 90%;
     text-align: justify;
+    margin: auto;
+    padding: 6px;
+}
+
+.steps {
+    color:#ff9900;
+}
+
+.round_title {
+    color:#ff9900;
+    font-weight: bold;
+}
+
+span {
+    color: #0099ff;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .first_matrices {
     display: inline-flex;
+    margin: auto;
+    width: 90%;
+    /* justify-content: center; */
+}
+
+.table:last-child {
+    margin-right: 0;
 }
 
 table {
     border-collapse: collapse;
-    margin: 0 20px 0 0;
+    margin: 8px 20px 8px 8px;
     width: 220px;
-    
+    color: skyblue;
+}
+
+caption {
+    color:#0099ff;
+    margin: 4px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 td {
     padding: 10px;
+}
+
+.return_back {
+    text-decoration: none;
+    color: white;
+    background-color: #0099ff;
+    padding: 14px;
+    margin: 10px 0 10px 0;
+    font-size: 20px;
+    display: block;
+    width: 150px;
+    border-radius: 8px;
+    text-align: center;
 }
 
 

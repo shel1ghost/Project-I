@@ -8,7 +8,7 @@ if(!isset($_SESSION['email'])){
 $documentRoot = $_SERVER['DOCUMENT_ROOT'];
 require($documentRoot.'/config/database.php');
 require($documentRoot.'/src/Controller/aes.php');
-require($documentRoot.'/src/Controller/enc.php');
+
 $email = $_SESSION['email'];
 $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
@@ -33,6 +33,13 @@ $stmt->close();
         </div>
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
+    <div class="search_passwords">
+        <form method="GET" action="search_passwords.php">
+            <input class="search_field" type="text" name="query" placeholder="Enter application name">
+            <input type="text" class="hidden_user_id" name="user_id" value="<?php echo $user_id; ?>">
+            <button class="search_button" type="submit">Search</button>
+        </form>
+    </div>
     <a href="export_passwords.php?id=<?php echo $user_id;?>" class="export_passwords">
         <span id="export_pass">Export</span>
     </a>

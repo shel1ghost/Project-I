@@ -58,9 +58,9 @@ $plaintext_password = decryptAES($password, $key_value);
             $array_plaintext = plaintextToMatrix($plaintext_password);
             $array_plaintext = convertArrayToDecimalArray($array_plaintext);
             //table ma show garne instead of matrix like format
-            echo '<p>1. Converting plaintext password and key as a decimal matrix:</p>';
+            echo '<p class="steps">1. Converting plaintext password and key as a decimal matrix:</p>';
             echo '<div class="first_matrices">';
-            echo '<table border="1"><caption>Password Matrix(4x4)</caption>';
+            echo '<table border="1" class="table"><caption>Password Matrix(4x4)</caption>';
             echo '<tr>';
             for($i=0; $i<16; $i++){
                 if($i%4==0){
@@ -71,7 +71,7 @@ $plaintext_password = decryptAES($password, $key_value);
             }
             echo '</table>';
             $array_key = keyStringToMatrix($key_value);
-            echo '<table border="1"><caption>Key Matrix(4x4)</caption>';
+            echo '<table border="1" class="table"><caption>Key Matrix(4x4)</caption>';
             echo '<tr>';
             for($i=0; $i<16; $i++){
                 if($i%4==0){
@@ -82,13 +82,14 @@ $plaintext_password = decryptAES($password, $key_value);
             }
             echo '</table>';
             echo '</div>';
-
-            echo '<p>2. Adding initial round key (Round 1):</p>';
-            $roundKeys = key_expansion($array_key, $sBox, $roundConstants);
+            
+            echo '<p class="steps">2. Adding initial round key (Round 1):</p>';
+            $roundKeys = key_expansion($array_key, $sbox, $round_constants);
             $single_array_round_keys = convertArrayToDecimalArray($roundKeys);
-            $state = $plaintext;
+            $state = $array_plaintext;
             $state = add_round_key($state, array_slice($single_array_round_keys, 0, 16));
-            echo '<table border="1"><caption>Resulting State Matrix</caption>';
+            echo '<div class="first_matrices">';
+            echo '<table border="1" class="table"><caption>Resulting State Matrix</caption>';
             echo '<tr>';
             for($i=0; $i<16; $i++){
                 if($i%4==0){
@@ -98,17 +99,18 @@ $plaintext_password = decryptAES($password, $key_value);
                 echo '<td>'.$state[$i].'</td>';
             }
             echo '</table>';
+            echo '</div>';
             
-            echo '<p>3.State matrices for next 8 rounds after substituing bytes, shifting rows, mixing columns and adding round keys, :</p>';
+            echo '<p class="steps">3. State matrices for next 8 rounds after substituting bytes, shifting rows, mixing columns and adding round keys:</p>';
             $start = 16;
             $end = 31;
 
             for ($round = 0; $round < 9; $round++) {
                 $count = $round + 2;
-                $state = subBytes($state, $sBox);
-                echo '<p>Round '.$count.':</p>';
+                $state = subBytes($state, $sbox);
+                echo '<p class="round_title">Round '.$count.':</p>';
                 echo '<div class="first_matrices">';
-                echo '<table border="1"><caption>Substitute Bytes</caption>';
+                echo '<table border="1" class="table"><caption>Substitute Bytes</caption>';
                 echo '<tr>';
                 for($i=0; $i<16; $i++){
                     if($i%4==0){
@@ -118,13 +120,47 @@ $plaintext_password = decryptAES($password, $key_value);
                     echo '<td>'.$state[$i].'</td>';
                 }
                 echo '</table>';
+
                 $state = shiftRows($state);
+                echo '<table border="1" class="table"><caption>Shift Rows</caption>';
+                echo '<tr>';
+                for($i=0; $i<16; $i++){
+                    if($i%4==0){
+                        echo '</tr>';
+                        echo '<tr>';
+                    }
+                    echo '<td>'.$state[$i].'</td>';
+                }
+                echo '</table>';
+
                 $state = mixColumns($state);
+                echo '<table border="1" class="table"><caption>Mix Columns</caption>';
+                echo '<tr>';
+                for($i=0; $i<16; $i++){
+                    if($i%4==0){
+                        echo '</tr>';
+                        echo '<tr>';
+                    }
+                    echo '<td>'.$state[$i].'</td>';
+                }
+                echo '</table>';
+
                 $state = add_round_key($state, array_slice($single_array_round_keys, $start, $end, false));
+                echo '<table border="1" class="table"><caption>Add Round Key</caption>';
+                echo '<tr>';
+                for($i=0; $i<16; $i++){
+                    if($i%4==0){
+                        echo '</tr>';
+                        echo '<tr>';
+                    }
+                    echo '<td>'.$state[$i].'</td>';
+                }
+                echo '</table>';
+
                 $start = $end;
                 $end += 16;
                 
-                echo '<table border="1"><caption>Resulted State Matrix</caption>';
+                echo '<table border="1" class="table"><caption>Resulted State Matrix</caption>';
                 echo '<tr>';
                 for($i=0; $i<16; $i++){
                     if($i%4==0){
@@ -137,11 +173,12 @@ $plaintext_password = decryptAES($password, $key_value);
                 echo '</div>';
             }
 
-            echo '<p>4. State matrix after final round (Encrypted Password): </p>';
-            $state = subBytes($state, $sBox);
+            echo '<p class="steps">4. State matrix after final round (Encrypted Password): </p>';
+            $state = subBytes($state, $sbox);
             $state = shiftRows($state);
             $state = add_round_key($state, array_slice($single_array_round_keys, 160, 175));
-            echo '<table border="1"><caption>Final Round State Matrix</caption>';
+            echo '<div class="first_matrices">';
+            echo '<table border="1" class="table"><caption>Final Round State Matrix</caption>';
             echo '<tr>';
             for($i=0; $i<16; $i++){
                 if($i%4==0){
@@ -151,10 +188,12 @@ $plaintext_password = decryptAES($password, $key_value);
                 echo '<td>'.$state[$i].'</td>';
             }
             echo '</table>';
+            echo '</div>';
 
-            echo '<p>Converting the final round matrix decimal values to base64 encoded format:</p>';
+            echo '<p class="steps">5. Converting the final round matrix decimal values to base64 encoded format:</p>';
             $encrypted_password = matrixToBase64($state);
-            echo 'Encrypted Password: '.$encrypted_password;
+            echo '<p><span>Encrypted Password: </span>'.$encrypted_password.'</p>';
+            echo '<p><a href="view_pass_menu.php?category='.$category.'" class="return_back">Return Back</a></p>';
             ?>
         </div>
     </div>

@@ -3,7 +3,7 @@ session_start();
 $documentRoot = $_SERVER['DOCUMENT_ROOT'];
 require($documentRoot.'/config/database.php');
 require($documentRoot.'/src/Controller/aes.php');
-require($documentRoot.'/src/Controller/enc.php');
+
 $email = $_SESSION['email'];
 $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
@@ -59,7 +59,7 @@ if ($result->num_rows > 0) {
         echo '<div class="column3">';
         echo '<a class="edit_btn" href="edit_password.php?id='.$row['password_id'].'">Edit</a>';
         echo '<a class="delete_btn" href="delete_password.php?id='.$row['password_id'].'&category='.$row['category'].'" onclick="return confirm(\'Are your sure you want to delete\')">Delete</a>';
-        echo '<a class="view_enc_btn" href="view_encryption_process.php?id='.$row['password_id'].'&category='.$row['category'].'">View Encryption Process</a>';
+        echo '<a class="view_enc_btn" href="view_encryption_process.php?id='.$row['password_id'].'&category='.$row['category'].'&user_id='.$row['user_id'].'">View Encryption Process</a>';
         echo '</div>';
         echo '</div>';
         $pass_num++;

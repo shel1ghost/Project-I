@@ -3,7 +3,7 @@ session_start();
 $documentRoot = $_SERVER['DOCUMENT_ROOT'];
 require($documentRoot.'/config/database.php');
 require($documentRoot.'/src/Controller/aes.php');
-require($documentRoot.'/src/Controller/enc.php');
+
 $email = $_SESSION['email'];
 $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
