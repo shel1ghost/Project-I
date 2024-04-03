@@ -115,3 +115,49 @@ function toggle_password (pass_num) {
         password_label.style.display = "none";
     }
 }
+
+const form = document.getElementById('search_form');
+
+form.addEventListener('submit', function(event){
+    const query = document.getElementsByClassName('search_field')[0].value;
+    const user_id = document.getElementsByClassName('hidden_user_id')[0].value;
+    event.preventDefault();
+    fetch(`search_passwords.php?query=${query}&user_id=${user_id}`)
+            .then(response => response.text())
+            .then(data => {
+                if(data === "No passwords found."){
+                    alert(data);
+                }else{
+                    document.getElementById('content').innerHTML = data;
+                    category = document.getElementsByClassName('hidden_category_info')[0].innerHTML;
+                    if (category === "social") {
+                        document.getElementsByClassName('social')[0].style.backgroundColor = "#0099ff";
+                        document.getElementsByClassName('social')[0].style.color = "white";
+                        document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
+                        document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
+                        document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+                    } else if (category === "banking") {
+                        document.getElementsByClassName('banking')[0].style.backgroundColor = "#0099ff";
+                        document.getElementsByClassName('banking')[0].style.color = "white";
+                        document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
+                        document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
+                        document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+                    } else if (category === "email") {
+                        document.getElementsByClassName('email')[0].style.backgroundColor = "#0099ff";
+                        document.getElementsByClassName('email')[0].style.color = "white";
+                        document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
+                        document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
+                        document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+                    } else if (category === "others") {
+                        document.getElementsByClassName('others')[0].style.backgroundColor = "#0099ff";
+                        document.getElementsByClassName('others')[0].style.color = "white";
+                        document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
+                        document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
+                        document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching search results:', error);
+            });
+});

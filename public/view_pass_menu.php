@@ -34,7 +34,7 @@ $stmt->close();
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
     <div class="search_passwords">
-        <form method="GET" action="search_passwords.php">
+        <form id="search_form">
             <input class="search_field" type="text" name="query" placeholder="Enter application name">
             <input type="text" class="hidden_user_id" name="user_id" value="<?php echo $user_id; ?>">
             <button class="search_button" type="submit">Search</button>
