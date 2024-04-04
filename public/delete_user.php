@@ -6,6 +6,7 @@ if(!isset($_SESSION['email'])){
 $documentRoot = $_SERVER['DOCUMENT_ROOT']; 
 require($documentRoot.'/config/database.php');
 require($documentRoot.'/src/Model/UserModel.php'); 
+include $documentRoot.'/src/Controller/session_timeout.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if(isset($_POST['password']) && empty(trim($_POST['password']))){

@@ -8,6 +8,7 @@ if(!isset($_SESSION['email'])){
 $documentRoot = $_SERVER['DOCUMENT_ROOT'];
 require($documentRoot.'/config/database.php');
 require($documentRoot.'/src/Controller/aes.php');
+include $documentRoot.'/src/Controller/session_timeout.php';
 
 $email = $_SESSION['email'];
 $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");

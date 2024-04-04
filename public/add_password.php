@@ -7,6 +7,7 @@ $documentRoot = $_SERVER['DOCUMENT_ROOT'];
 require($documentRoot.'/src/Model/PasswordModel.php');
 require($documentRoot.'/src/Controller/aes.php');
 require($documentRoot.'/config/database.php'); 
+include $documentRoot.'/src/Controller/session_timeout.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     require($documentRoot.'/src/Controller/add_pass_validator.php');

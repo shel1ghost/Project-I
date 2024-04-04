@@ -1,9 +1,17 @@
+function change_category_style(category) {
+    let catgories = ['social', 'banking', 'email', 'others'];
+    catgories.forEach((element)=>{
+        if(element == category){
+            document.getElementsByClassName(element)[0].style.backgroundColor = "#0099ff";
+            document.getElementsByClassName(element)[0].style.color = "white";
+        }else{
+            document.getElementsByClassName(element)[0].style.backgroundColor = "transparent";
+        }
+    });
+}
+
 function fetch_social_pass() {
-    document.getElementsByClassName('social')[0].style.backgroundColor = "#0099ff";
-    document.getElementsByClassName('social')[0].style.color = "white";
-    document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
-    document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
-    document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+    change_category_style('social');
     fetch('social_passwords.php')
         .then(response => {
             if (!response.ok) {
@@ -19,11 +27,7 @@ function fetch_social_pass() {
         });
 }
 function fetch_banking_pass() {
-    document.getElementsByClassName('banking')[0].style.backgroundColor = "#0099ff";
-    document.getElementsByClassName('banking')[0].style.color = "white";
-    document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
-    document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
-    document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+    change_category_style('banking');
     fetch('banking_passwords.php')
         .then(response => {
             if (!response.ok) {
@@ -39,11 +43,7 @@ function fetch_banking_pass() {
         });
 }
 function fetch_email_pass() {
-    document.getElementsByClassName('email')[0].style.backgroundColor = "#0099ff";
-    document.getElementsByClassName('email')[0].style.color = "white";
-    document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
-    document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
-    document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+    change_category_style('email');
     fetch('email_passwords.php')
         .then(response => {
             if (!response.ok) {
@@ -59,11 +59,7 @@ function fetch_email_pass() {
         });
 }
 function fetch_others_pass() {
-    document.getElementsByClassName('others')[0].style.backgroundColor = "#0099ff";
-    document.getElementsByClassName('others')[0].style.color = "white";
-    document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
-    document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
-    document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
+    change_category_style('others');
     fetch('others_passwords.php')
         .then(response => {
             if (!response.ok) {
@@ -81,14 +77,8 @@ function fetch_others_pass() {
 
 window.onload = function () {
     var url = window.location.href;
-
-    // Create a new URLSearchParams object with the URL's query string
     var params = new URLSearchParams(url.split('?')[1]);
-
-    // Get the value of a specific query parameter
     var category = params.get('category');
-
-    // Check if the parameter exists
     if (category === "social") {
         fetch_social_pass();
     } else if (category === "banking") {
@@ -132,29 +122,13 @@ form.addEventListener('submit', function(event){
                     category = document.getElementsByClassName('hidden_category_info')[0].innerHTML;
         
                     if (category === "social") {
-                        document.getElementsByClassName('social')[0].style.backgroundColor = "#0099ff";
-                        document.getElementsByClassName('social')[0].style.color = "white";
-                        document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
-                        document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
-                        document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+                        change_category_style('social');
                     } else if (category === "banking") {
-                        document.getElementsByClassName('banking')[0].style.backgroundColor = "#0099ff";
-                        document.getElementsByClassName('banking')[0].style.color = "white";
-                        document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
-                        document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
-                        document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+                        change_category_style('banking');
                     } else if (category === "email") {
-                        document.getElementsByClassName('email')[0].style.backgroundColor = "#0099ff";
-                        document.getElementsByClassName('email')[0].style.color = "white";
-                        document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
-                        document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
-                        document.getElementsByClassName('others')[0].style.backgroundColor = "transparent";
+                        change_category_style('email');
                     } else if (category === "others") {
-                        document.getElementsByClassName('others')[0].style.backgroundColor = "#0099ff";
-                        document.getElementsByClassName('others')[0].style.color = "white";
-                        document.getElementsByClassName('banking')[0].style.backgroundColor = "transparent";
-                        document.getElementsByClassName('email')[0].style.backgroundColor = "transparent";
-                        document.getElementsByClassName('social')[0].style.backgroundColor = "transparent";
+                        change_category_style('others');
                     }
                 }
             })

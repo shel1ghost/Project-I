@@ -5,6 +5,7 @@ session_start();
 if(!isset($_SESSION['email'])){
     header('Location: login.php');
 }
+include $documentRoot.'/src/Controller/session_timeout.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

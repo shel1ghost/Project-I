@@ -8,9 +8,7 @@ require($documentRoot.'/config/database.php');
 require($documentRoot.'/src/Controller/enc.php');
 require($documentRoot.'/src/Controller/aes.php');
 require($documentRoot.'/src/Model/PasswordModel.php');
-
-
-
+include $documentRoot.'/src/Controller/session_timeout.php';
 
 $password_id = $_GET['id'];
 $stmt = $conn->prepare("SELECT * FROM passwords WHERE password_id=?");

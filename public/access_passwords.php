@@ -1,6 +1,8 @@
 <?php 
+session_start();
 $documentRoot = $_SERVER['DOCUMENT_ROOT']; 
 require($documentRoot.'/src/Controller/access_pass.php');
+include $documentRoot.'/src/Controller/session_timeout.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -9,6 +9,7 @@ $documentRoot = $_SERVER['DOCUMENT_ROOT'];
 require($documentRoot.'/config/database.php');
 require($documentRoot.'/src/Controller/aes.php');
 require($documentRoot.'/src/Controller/aes_process.php');
+include $documentRoot.'/src/Controller/session_timeout.php';
 
 $password_id = $_GET['id'];
 $category = $_GET['category'];
