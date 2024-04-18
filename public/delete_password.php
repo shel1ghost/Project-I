@@ -8,9 +8,9 @@ if(!isset($_SESSION['email'])){
 }else{
     $password_id = $_GET['id'];
     $category = $_GET['category'];
-    //$key = $_SESSION['token'];
+    $key_id = $_GET['key_id'];
     $password_model = new PasswordModel($conn);
-    $password_model->deletePassword($password_id);
+    $password_model->deletePassword($password_id, $key_id);
     //header('Location: view_pass_menu.php');
     $redirectURL = 'view_pass_menu.php?category='.$category;
     header('Location: '.$redirectURL);

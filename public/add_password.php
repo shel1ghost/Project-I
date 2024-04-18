@@ -19,12 +19,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $stmt->bind_result($user_id);
         $stmt->fetch();
         $stmt->close();
-        $stmt = $conn->prepare("SELECT key_value FROM password_keys WHERE user_id=?;");
-        $stmt->bind_param("s", $user_id);
+        $key_id = bin2hex(strtolower(substr($appName, 0, 1).$user_id.substr($app_userID, 0, 3)));
+        $key_value = md5($appName.$app_userID);
+
+        $stmt = $conn->prepare("INSERT INTO password_keys VALUES (?, ?, ?)");
+        $stmt->bind_param("ssi", $key_id, $key_value, $user_id);
         $stmt->execute();
-        $stmt->bind_result($key_value);
-        $stmt->fetch();
         $stmt->close();
+
         $security_qn = isset($securityQuestion)?$securityQuestion:null;
         $security_ans = isset($securityAnswer)?$securityAnswer:null;
         $two_factor_info = isset($twoFactorInfo)?$twoFactorInfo:null;

@@ -34,6 +34,8 @@ $stmt->close();
         </div>
         <div class="logout"><a href="logout.php">Logout</a></div>
     </header>
+    <a href="dashboard.php" class="back_to_dashboard">Back to dashboard</a>
+    <a href="view_keys.php" class="view_keys">View your Keys</a>
     <div class="search_passwords">
         <form id="search_form">
             <input class="search_field" type="text" name="query" placeholder="Enter application name">

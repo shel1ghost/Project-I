@@ -39,11 +39,17 @@ class PasswordModel {
         return $passwords;
     }
 
-    public function deletePassword($password_id) {
+    public function deletePassword($password_id, $key_id) {
         $sql = "DELETE FROM passwords WHERE password_id=?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $password_id);
-        return $stmt->execute();
+        $stmt->execute();
+        $stmt->close();
+        $sql = "DELETE FROM password_keys WHERE key_id=?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $key_id);
+        $stmt->execute();
+        $stmt->close();
     }
 }
 

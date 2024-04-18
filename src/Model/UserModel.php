@@ -21,12 +21,6 @@ class UserModel {
             $stmt->bind_param("sss", $name, $email, $password);
             $stmt->execute();
             $stmt->close();
-            $user_id = $this->getUserId($email);
-            $key_value = md5(rand());
-            $stmt = $this->conn->prepare("INSERT INTO password_keys (user_id, key_value) VALUES (?, ?)");
-            $stmt->bind_param("is", $user_id, $key_value);
-            $stmt->execute();
-            $stmt->close();
             return true;
         }
     }

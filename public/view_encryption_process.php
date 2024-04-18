@@ -14,6 +14,7 @@ include $documentRoot.'/src/Controller/session_timeout.php';
 $password_id = $_GET['id'];
 $category = $_GET['category'];
 $user_id = $_GET['user_id'];
+$key_id = $_GET['key_id'];
 
 //fetch the corresponding password from db
 $stmt = $conn->prepare("SELECT password FROM passwords WHERE password_id = ?");
@@ -23,8 +24,8 @@ $stmt->bind_result($password);
 $stmt->fetch();
 $stmt->close();
 
-$stmt = $conn->prepare("SELECT key_value FROM password_keys WHERE user_id = ?");
-$stmt->bind_param("s", $user_id);
+$stmt = $conn->prepare("SELECT key_value FROM password_keys WHERE key_id = ? AND user_id = ?");
+$stmt->bind_param("ss", $key_id, $user_id);
 $stmt->execute();
 $stmt->bind_result($key_value);
 $stmt->fetch();
@@ -56,6 +57,7 @@ $plaintext_password = decryptAES($password, $key_value);
         <p><span>Encryption Key: </span><?php echo $key_value;?></p>
         <div>
             <?php
+            $start_time = microtime(true);
             $array_plaintext = plaintextToMatrix($plaintext_password);
             $array_plaintext = convertArrayToDecimalArray($array_plaintext);
             //table ma show garne instead of matrix like format
@@ -193,7 +195,10 @@ $plaintext_password = decryptAES($password, $key_value);
 
             echo '<p class="steps">5. Converting the final round matrix decimal values to base64 encoded format:</p>';
             $encrypted_password = matrixToBase64($state);
+            $end_time = microtime(true);
+            $total_time = $end_time - $start_time;
             echo '<p><span>Encrypted Password: </span>'.$encrypted_password.'</p>';
+            echo '<p><span>Total time taken: </span>'.number_format($total_time, 4).' seconds</p>';
             echo '<p><a href="view_pass_menu.php?category='.$category.'" class="return_back">Return Back</a></p>';
             ?>
         </div>

@@ -126,7 +126,7 @@ function subBytes(array $state, $sBox) {
     return $result;
 }
 
-function shiftRows($state) {
+/*function shiftRows($state) {
     $rows = 4; // AES operates on 4x4 matrices
 
     // Perform row shifts
@@ -167,6 +167,37 @@ function circularLeftShift($state, $startIndex, $shifts) {
     $state = array_merge(array_slice($state, 0, $startIndex), array_slice($state, $startIndex + $shifts));
     $state = array_merge($state, $temp);
     return $state;
+} */ 
+
+function shiftRows($arr) {
+    if (count($arr) != 16) {
+        return "Invalid input array. It should contain 16 elements.";
+    }
+
+    $rotated = [];
+
+    // Rotate the matrix
+    $rotated[] = $arr[0];
+    $rotated[] = $arr[1];
+    $rotated[] = $arr[2];
+    $rotated[] = $arr[3];
+
+    $rotated[] = $arr[5];
+    $rotated[] = $arr[6];
+    $rotated[] = $arr[7];
+    $rotated[] = $arr[4];
+
+    $rotated[] = $arr[10];
+    $rotated[] = $arr[11];
+    $rotated[] = $arr[8];
+    $rotated[] = $arr[9];
+
+    $rotated[] = $arr[15];
+    $rotated[] = $arr[12];
+    $rotated[] = $arr[13];
+    $rotated[] = $arr[14];
+
+    return $rotated;
 }
 
 function mixColumns($state) {
