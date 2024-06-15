@@ -270,19 +270,8 @@ function encryptAESFromArray(array $plaintext, array $key, $sBox, $roundConstant
     $state = subBytes($state, $sBox);
     $state = shiftRows($state);
     $state = add_round_key($state, array_slice($single_array_round_keys, 160, 175));
+
     return $state;
-}
-
-function convertHexArrayToDecimalArray($hexArray) {
-    $decimalArray = array();
-
-    foreach ($hexArray as $subArray) {
-        foreach ($subArray as $hex) {
-            $decimalArray[] = hexdec($hex);
-        }
-    }
-
-    return $decimalArray;
 }
 
 function convertArrayToDecimalArray($Array) {
@@ -307,11 +296,11 @@ function aes_encrypt($plaintext, $key){
     return encryptAESFromArray($array_plaintext, $array_key, $sbox, $round_constants);
 }
 
-$plaintext = "qwerty@#$12345600!";
+$plaintext = "Apple123!";
 $key = "8b1a9953c4611296a827abf8c47804d7";
 $res = aes_encrypt($plaintext, $key);
 
-// print_r($res);
+//print_r($res);
 
 function matrixToBase64($matrix) {
     $binaryString = '';

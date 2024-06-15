@@ -197,7 +197,7 @@ $plaintext_password = decryptAES($password, $key_value);
             $encrypted_password = matrixToBase64($state);
             $end_time = microtime(true);
             $total_time = $end_time - $start_time;
-            echo '<p><span>Encrypted Password: </span>'.$encrypted_password.'</p>';
+            echo '<p><span>Encrypted Password: </span>'.$password.'</p>';
             echo '<p><span>Total time taken: </span>'.number_format($total_time, 4).' seconds</p>';
             echo '<p><a href="view_pass_menu.php?category='.$category.'" class="return_back">Return Back</a></p>';
             ?>
